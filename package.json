@@ -1,0 +1,21 @@
+{
+  "name": "compoundedinterest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "parcel src/index.html"
+  },
+  "author": "Adam Wattis",
+  "license": "ISC",
+  "browserslist": [
+    "> 5%"
+  ],
+  "dependencies": {
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3"
+  }
+}
