@@ -35,7 +35,7 @@ class CalculatorGraph extends LitElement {
 			}
 			.bar {
 				background-color: #EBECF0;
-				border-radius: 3px;
+				border-radius: 12px;
 			}
 			.bar:hover {
 				padding: 1rem;

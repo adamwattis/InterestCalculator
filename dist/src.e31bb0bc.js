@@ -3817,7 +3817,7 @@ var _formInput = _interopRequireDefault(require("./form-input.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin: 8px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin: 8px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tpadding: 0;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -3827,7 +3827,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<h2>Inputs</h2>\n\t\t\t\t<form>\n\t\t\t\t\t<label for=\"beginning\">Beginning value</label>\n\t\t\t\t\t<span>$<input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t\t<label for=\"rate\">Interest rate</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\" \n\t\t\t\t\t\t\taccuracy=\"2\"/>%</span>\n\t\t\t\t\t<label for=\"years\">Years to invest</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/>years</span>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<h2>Inputs</h2>\n\t\t\t\t<form>\n\t\t\t\t\t<label for=\"beginning\">Beginning value</label>\n\t\t\t\t\t<span class=\"input_icon\">$<input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t\t<label for=\"rate\">Interest rate</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\" \n\t\t\t\t\t\t\tstep=\"any\"/>%</span>\n\t\t\t\t\t<label for=\"years\">Years to invest</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/>years</span>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4015,7 +4015,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 50vh;\n\t\t\t\tbackground-color: #DEE0E7;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tborder-radius: 3px;\n\t\t\t}\n\t\t\t.bar:hover {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t.bar:hover > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: lightgray;\n\t\t\t}\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin: 8px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 50vh;\n\t\t\t\tbackground-color: #DEE0E7;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tborder-radius: 12px;\n\t\t\t}\n\t\t\t.bar:hover {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t.bar:hover > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: lightgray;\n\t\t\t}\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin: 8px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4193,7 +4193,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63369" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50008" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

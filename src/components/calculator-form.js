@@ -17,7 +17,7 @@ class CalculatorForm extends LitElement {
 				<h2>Inputs</h2>
 				<form>
 					<label for="beginning">Beginning value</label>
-					<span>$<input 
+					<span class="input_icon">$<input 
 							type="number" 
 							name="beginning" 
 							value="${this.beginning}" 
@@ -28,7 +28,7 @@ class CalculatorForm extends LitElement {
 							name="rate" 
 							value="${this.rate}" 
 							@input="${this.handleChange}" 
-							accuracy="2"/>%</span>
+							step="any"/>%</span>
 					<label for="years">Years to invest</label>
 					<span><input 
 							type="number" 
@@ -69,6 +69,10 @@ class CalculatorForm extends LitElement {
 			}
 			input:focus {
 				outline-color: lightgray;
+			}
+			.input_icon {
+				padding: 0;
+				position: relative;
 			}
 			form {
 				display: grid;
