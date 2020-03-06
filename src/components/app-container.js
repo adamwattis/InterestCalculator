@@ -3,6 +3,7 @@ import { LitElement, html, css } from 'lit-element'
 import CalculatorForm from './calculator-form.js'
 import CalculatorResults from './calculator-results.js'
 import CalculatorGraph from './calculator-graph.js'
+const logo = require('../assets/yield_logo.svg')
 
 class AppContainer extends LitElement {
 
@@ -15,9 +16,13 @@ class AppContainer extends LitElement {
 
 	render() {
 		return html`
-			<div>
-				<h1>Interest Calculator</h1>
+			<div id="app">
+				<div id="logoGroup">
+					<img id="logo" src="${logo}"/>
+					<h1 id="logoText">Yield</h1>
+				</div>
 				<calculator-form @input="${this.handleInput}"></calculator-form>
+				<button @click="${this.handleClick}">Calculate</button>
 				<calculator-results 
 				beginning="${this.beginning}"
 				rate="${this.rate}"
@@ -39,6 +44,28 @@ class AppContainer extends LitElement {
 				font-style: normal;
 				font-weight: 200;
 			}
+			#app {
+				margin: 1rem;
+			}
+			#logo {
+				width: 100%;
+			}
+			#logoText {
+				padding: 1rem;
+				font-size: 1rem;
+			}
+			#logoGroup {
+				display: grid;
+				grid-template-columns: 4rem 1fr;
+				align-items: center;
+				margin-bottom: 2rem;
+			}
+			.flip_card {
+				transform:rotatey(-180deg);
+				transform-style: preserve-3d;
+				transition: 0.5s;
+				backface-visability: hidden;
+			}
 		`
 	}
 
@@ -48,6 +75,9 @@ class AppContainer extends LitElement {
 			rate: {type: String},
 			years: {type: String}
 		}
+	}
+	handleClick(event) {
+		console.log("clicked!")
 	}
 
 	handleInput(event) {

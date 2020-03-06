@@ -38,7 +38,6 @@ class CalculatorResults extends LitElement {
 				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
 				border-radius: 6px;
 				padding: 20px;
-				margin: 8px;
 				margin-bottom: 2rem;
 			}
 		`

@@ -14,27 +14,32 @@ class CalculatorForm extends LitElement {
 	render() {
 		return html`
 			<div class="tile">
-				<h2>Inputs</h2>
-				<form>
-					<label for="beginning">Beginning value</label>
-					<span class="input_icon">$<input 
+				<form class="input_form">
+					<label for="beginning">Initial Investment</label>
+					<span class="input_icon"> $ <input 
 							type="number" 
 							name="beginning" 
 							value="${this.beginning}" 
 							@input="${this.handleChange}"/></span>
-					<label for="rate">Interest rate</label>
+					<label for="rate">Rate of Interest</label>
 					<span><input 
 							type="number" 
 							name="rate" 
 							value="${this.rate}" 
 							@input="${this.handleChange}" 
-							step="any"/>%</span>
-					<label for="years">Years to invest</label>
+							step="any"/> % </span>
+					<label for="years">Calculation Period</label>
 					<span><input 
 							type="number" 
 							name="years" 
 							value="${this.years}" 
-							@input="${this.handleChange}"/>years</span>
+							@input="${this.handleChange}"/> years</span>
+					<label for="years">Periodic Contribution</label>
+					<span> $ <input 
+							type="number" 
+							name="years" 
+							value="${this.years}" 
+							@input="${this.handleChange}"/></span>
 				</form>
 			</div>
 		`
@@ -56,8 +61,11 @@ class CalculatorForm extends LitElement {
 				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
 				border-radius: 6px;
 				padding: 20px;
-				margin: 8px;
 				margin-bottom: 2rem;
+			}
+			.input_form {
+				display: grid;
+
 			}
 			input {
 				background: #EBECF0;
@@ -66,6 +74,7 @@ class CalculatorForm extends LitElement {
 				border-radius: 6px;
 				font-size: 1rem;
 				padding: 0.5rem;
+				margin-bottom: 1rem;
 			}
 			input:focus {
 				outline-color: lightgray;
