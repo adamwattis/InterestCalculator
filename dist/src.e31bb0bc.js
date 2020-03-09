@@ -3778,8 +3778,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 class FormInput extends _litElement.LitElement {
   constructor() {
-    super();
-    this.title = '', this.name = '', this.value = '';
+    super(), this.title = '', this.name = '', this.value = '';
   }
 
   static get properties() {
@@ -3817,7 +3816,7 @@ var _formInput = _interopRequireDefault(require("./form-input.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t.input_form {\n\t\t\t\tdisplay: grid;\n\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tpadding: 0;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\theight: 100%;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t.input_form {\n\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t\tbackface-visibility: hidden;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tpadding: 0;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -3925,7 +3924,7 @@ var _litElement = require("lit-element");
 var _calculator = require("../calculator.js");
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t\theight: 100%;\n\t\t\t}\n\t\t\t.results {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr 1fr;\n\t\t\t\tjustify-items: center;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -3935,7 +3934,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<h2>Results</h2>\n\t\t\t\t<h3>Beginning money: $", "</h3>\n\t\t\t\t<h3>Ending money: $", "</h3>\n\t\t\t\t<h3>Interest earned: $", "</h3>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<div class=\"results\">\n\t\t\t\t\t<p>Beginning money: $", "</p>\n\t\t\t\t\t<p>Ending money: $", "</p>\n\t\t\t\t\t<p>Interest earned: $", "</p>\n\t\t\t\t</div>\n\t\t\t\t<slot name=\"graph\"></slot>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4015,7 +4014,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 50vh;\n\t\t\t\tbackground-color: #DEE0E7;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tborder-radius: 12px;\n\t\t\t}\n\t\t\t.bar:hover {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t.bar:hover > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: lightgray;\n\t\t\t}\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 30vh;\n\t\t\t\tbackground-color: #DEE0E7;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tborder-radius: 12px;\n\t\t\t}\n\t\t\t.bar:hover, .bar:active {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t.bar:hover > .bar_price, .bar:active > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: lightgray;\n\t\t\t}\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 0.5rem;\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4079,7 +4078,124 @@ class CalculatorGraph extends _litElement.LitElement {
 }
 
 customElements.define('calculator-graph', CalculatorGraph);
-},{"lit-element":"../node_modules/lit-element/lit-element.js","../calculator.js":"calculator.js"}],"assets/yield_logo.svg":[function(require,module,exports) {
+},{"lit-element":"../node_modules/lit-element/lit-element.js","../calculator.js":"calculator.js"}],"components/main-button.js":[function(require,module,exports) {
+"use strict";
+
+var _litElement = require("lit-element");
+
+function _templateObject2() {
+  const data = _taggedTemplateLiteral(["\n\t\t\t<button>\n\t\t\t\t", "\n\t\t\t</button>\n\t\t"]);
+
+  _templateObject2 = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  const data = _taggedTemplateLiteral(["\n\t\t\tbutton {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tpadding: 1rem;\n\t\t\t\tcolor: #FFFFFF;\n\t\t\t\twidth: 100%;\n\t\t\t\tbox-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tborder: none;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t"]);
+
+  _templateObject = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+class MainButton extends _litElement.LitElement {
+  constructor() {
+    super(), this.title = 'title';
+  }
+
+  static get styles() {
+    return (0, _litElement.css)(_templateObject());
+  }
+
+  static get properties() {
+    return {
+      title: {
+        type: String
+      }
+    };
+  }
+
+  render() {
+    return (0, _litElement.html)(_templateObject2(), this.title);
+  }
+
+}
+
+customElements.define('main-button', MainButton);
+},{"lit-element":"../node_modules/lit-element/lit-element.js"}],"components/card-flipper.js":[function(require,module,exports) {
+"use strict";
+
+var _litElement = require("lit-element");
+
+function _templateObject2() {
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"card ", "\">\n\t\t\t  <div class=\"content\">\n\t\t\t    <div class=\"front\">\n\t\t\t      <slot name=\"front\"></slot>\n\t\t\t    </div>\n\t\t\t    <div class=\"back\">\n\t\t\t      <slot name=\"back\"></slot>\n\t\t\t    </div>\n\t\t\t  </div>\n\t\t\t</div>\n\t\t"]);
+
+  _templateObject2 = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  const data = _taggedTemplateLiteral(["\n\t\t\t.card {\n\t\t\t  width: 100%;\n\t\t\t  perspective: 600px;\n\t\t\t  margin-bottom: 5rem;\n\n\t\t\t}\n\n\t\t\t.content {\n\t\t\t  height: 60vh;\n\n\t\t\t  transition: transform 0.5s;\n\t\t\t  transform-style: preserve-3d;\n\t\t\t}\n\n\t\t\t.flip .content {\n\t\t\t  transform: rotateY( 180deg ) ;\n\t\t\t  transition: transform 0.5s;\n\t\t\t}\n\n\t\t\t.front,\n\t\t\t.back {\n\t\t\t  position: absolute;\n\t\t\t  height: 100%;\n\t\t\t  width: 100%;\n\t\t\t  backface-visibility: hidden;\n\t\t\t}\n\n\t\t\t.back {\n\t\t\t  transform: rotateY( 180deg );\n\t\t\t}\n\t\t"]);
+
+  _templateObject = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+class CardFlipper extends _litElement.LitElement {
+  constructor() {
+    super();
+    this.state = 'none';
+  }
+
+  static get styles() {
+    return (0, _litElement.css)(_templateObject());
+  }
+
+  static get properties() {
+    return {
+      state: {
+        type: String
+      }
+    };
+  } // render() {
+  // 	return html`
+  // 		<div id="${this.state} card">
+  // 			<div id="content">
+  // 				<div id="front">
+  // 					<slot name="front"></slot>
+  // 				</div>
+  // 				<div id="back">
+  // 					<slot name="back"></slot>
+  // 				</div>
+  // 			</div>
+  // 		</div>
+  // 	`
+  // }
+
+
+  render() {
+    return (0, _litElement.html)(_templateObject2(), this.state == 'flip' ? 'flip' : 'none');
+  }
+
+}
+
+customElements.define('card-flipper', CardFlipper);
+},{"lit-element":"../node_modules/lit-element/lit-element.js"}],"assets/yield_logo.svg":[function(require,module,exports) {
 module.exports = "/yield_logo.283aac9b.svg";
 },{}],"components/app-container.js":[function(require,module,exports) {
 "use strict";
@@ -4092,10 +4208,14 @@ var _calculatorResults = _interopRequireDefault(require("./calculator-results.js
 
 var _calculatorGraph = _interopRequireDefault(require("./calculator-graph.js"));
 
+var _mainButton = _interopRequireDefault(require("./main-button.js"));
+
+var _cardFlipper = _interopRequireDefault(require("./card-flipper.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t.flip_card {\n\t\t\t\ttransform:rotatey(-180deg);\n\t\t\t\ttransform-style: preserve-3d;\n\t\t\t\ttransition: 0.5s;\n\t\t\t\tbackface-visability: hidden;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -4105,7 +4225,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"app\">\n\t\t\t\t<div id=\"logoGroup\">\n\t\t\t\t\t<img id=\"logo\" src=\"", "\"/>\n\t\t\t\t\t<h1 id=\"logoText\">Yield</h1>\n\t\t\t\t</div>\n\t\t\t\t<calculator-form @input=\"", "\"></calculator-form>\n\t\t\t\t<button @click=\"", "\">Calculate</button>\n\t\t\t\t<calculator-results \n\t\t\t\tbeginning=\"", "\"\n\t\t\t\trate=\"", "\"\n\t\t\t\tyears=\"", "\">\n\t\t\t\t</calculator-results>\n\t\t\t\t<calculator-graph\n\t\t\t\tbeginning=\"", "\"\n\t\t\t\trate=\"", "\"\n\t\t\t\tyears=\"", "\"></calculator-graph>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"app\">\n\t\t\t\t<div id=\"logoGroup\">\n\t\t\t\t\t<img id=\"logo\" src=\"", "\"/>\n\t\t\t\t\t<h1 id=\"logoText\">Yield</h1>\n\t\t\t\t</div>\n\t\t\t\t<card-flipper state=\"", "\">\n\t\t\t\t\t<calculator-form slot=\"front\" @input=\"", "\"></calculator-form>\n\t\t\t\t\t<calculator-results \n\t\t\t\t\t\tslot=\"back\"\n\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\tyears=\"", "\">\n\t\t\t\t\t\t<calculator-graph\n\t\t\t\t\t\t\tslot=\"graph\"\n\t\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\t\tyears=\"", "\"></calculator-graph>\n\t\t\t\t\t</calculator-results>\n\t\t\t\t</card-flipper>\n\t\t\t\t<main-button @click=\"", "\" title=\"", "\"></main-button>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4121,11 +4241,11 @@ const logo = require('../assets/yield_logo.svg');
 class AppContainer extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning = 100, this.rate = 7, this.years = 40;
+    this.beginning = 100, this.rate = 7, this.years = 40, this.flip = false;
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), logo, this.handleInput, this.handleClick, this.beginning, this.rate, this.years, this.beginning, this.rate, this.years);
+    return (0, _litElement.html)(_templateObject(), logo, this.flip ? 'flip' : 'none', this.handleInput, this.beginning, this.rate, this.years, this.beginning, this.rate, this.years, this.handleClick, this.flip ? 'Reset' : 'Calculate');
   }
 
   static get styles() {
@@ -4142,12 +4262,15 @@ class AppContainer extends _litElement.LitElement {
       },
       years: {
         type: String
+      },
+      flip: {
+        type: Boolean
       }
     };
   }
 
   handleClick(event) {
-    console.log("clicked!");
+    this.flip = this.flip ? false : true;
   }
 
   handleInput(event) {
@@ -4157,7 +4280,7 @@ class AppContainer extends _litElement.LitElement {
 }
 
 customElements.define('app-container', AppContainer);
-},{"lit-element":"../node_modules/lit-element/lit-element.js","./calculator-form.js":"components/calculator-form.js","./calculator-results.js":"components/calculator-results.js","./calculator-graph.js":"components/calculator-graph.js","../assets/yield_logo.svg":"assets/yield_logo.svg"}],"index.js":[function(require,module,exports) {
+},{"lit-element":"../node_modules/lit-element/lit-element.js","./calculator-form.js":"components/calculator-form.js","./calculator-results.js":"components/calculator-results.js","./calculator-graph.js":"components/calculator-graph.js","./main-button.js":"components/main-button.js","./card-flipper.js":"components/card-flipper.js","../assets/yield_logo.svg":"assets/yield_logo.svg"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _appContainer = _interopRequireDefault(require("./components/app-container.js"));
@@ -4201,7 +4324,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64987" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49369" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

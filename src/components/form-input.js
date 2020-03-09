@@ -4,7 +4,7 @@ import { LitElement, html, css } from 'lit-element'
 class FormInput extends LitElement {
 
 	constructor() {
-		super()
+		super(),
 		this.title = '',
 		this.name = '',
 		this.value = ''

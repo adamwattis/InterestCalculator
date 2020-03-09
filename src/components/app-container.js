@@ -3,6 +3,8 @@ import { LitElement, html, css } from 'lit-element'
 import CalculatorForm from './calculator-form.js'
 import CalculatorResults from './calculator-results.js'
 import CalculatorGraph from './calculator-graph.js'
+import MainButton from './main-button.js'
+import CardFlipper from './card-flipper.js'
 const logo = require('../assets/yield_logo.svg')
 
 class AppContainer extends LitElement {
@@ -11,7 +13,8 @@ class AppContainer extends LitElement {
 		super()
 		this.beginning = 100,
 		this.rate = 7,
-		this.years = 40
+		this.years = 40,
+		this.flip = false
 	}
 
 	render() {
@@ -21,17 +24,21 @@ class AppContainer extends LitElement {
 					<img id="logo" src="${logo}"/>
 					<h1 id="logoText">Yield</h1>
 				</div>
-				<calculator-form @input="${this.handleInput}"></calculator-form>
-				<button @click="${this.handleClick}">Calculate</button>
-				<calculator-results 
-				beginning="${this.beginning}"
-				rate="${this.rate}"
-				years="${this.years}">
-				</calculator-results>
-				<calculator-graph
-				beginning="${this.beginning}"
-				rate="${this.rate}"
-				years="${this.years}"></calculator-graph>
+				<card-flipper state="${this.flip ? 'flip' : 'none'}">
+					<calculator-form slot="front" @input="${this.handleInput}"></calculator-form>
+					<calculator-results 
+						slot="back"
+						beginning="${this.beginning}"
+						rate="${this.rate}"
+						years="${this.years}">
+						<calculator-graph
+							slot="graph"
+							beginning="${this.beginning}"
+							rate="${this.rate}"
+							years="${this.years}"></calculator-graph>
+					</calculator-results>
+				</card-flipper>
+				<main-button @click="${this.handleClick}" title="${this.flip ? 'Reset' : 'Calculate'}"></main-button>
 			</div>
 		`
 	}
@@ -60,12 +67,6 @@ class AppContainer extends LitElement {
 				align-items: center;
 				margin-bottom: 2rem;
 			}
-			.flip_card {
-				transform:rotatey(-180deg);
-				transform-style: preserve-3d;
-				transition: 0.5s;
-				backface-visability: hidden;
-			}
 		`
 	}
 
@@ -73,11 +74,12 @@ class AppContainer extends LitElement {
 		return {
 			beginning: {type: String},
 			rate: {type: String},
-			years: {type: String}
+			years: {type: String},
+			flip: {type: Boolean}
 		}
 	}
 	handleClick(event) {
-		console.log("clicked!")
+		this.flip = this.flip ? false : true
 	}
 
 	handleInput(event) {

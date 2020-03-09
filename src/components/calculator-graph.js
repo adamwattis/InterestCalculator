@@ -25,7 +25,7 @@ class CalculatorGraph extends LitElement {
 			#graph {
 				box-sizing: border-box;
 				width: 100%;
-				height: 50vh;
+				height: 30vh;
 				background-color: #DEE0E7;
 				display: grid;
 				grid-gap: 2px;
@@ -34,13 +34,13 @@ class CalculatorGraph extends LitElement {
 				padding: 0.5rem;
 			}
 			.bar {
-				background-color: #EBECF0;
+				background: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);
 				border-radius: 12px;
 			}
-			.bar:hover {
+			.bar:hover, .bar:active {
 				padding: 1rem;
 			}
-			.bar:hover > .bar_price {
+			.bar:hover > .bar_price, .bar:active > .bar_price {
 				display: block;
 				padding: 0;
 				margin: 0;
@@ -56,7 +56,7 @@ class CalculatorGraph extends LitElement {
 				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
 				border-radius: 6px;
 				padding: 20px;
-				margin-bottom: 2rem;
+				margin-bottom: 0.5rem;
 			}
 		`
 	}

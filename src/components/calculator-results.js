@@ -14,10 +14,12 @@ class CalculatorResults extends LitElement {
 	render() {
 		return html`
 			<div class="tile">
-				<h2>Results</h2>
-				<h3>Beginning money: $${this.beginning}</h3>
-				<h3>Ending money: $${this.endingMoney()}</h3>
-				<h3>Interest earned: $${this.endingInterest()}</h3>
+				<div class="results">
+					<p>Beginning money: $${this.beginning}</p>
+					<p>Ending money: $${this.endingMoney()}</p>
+					<p>Interest earned: $${this.endingInterest()}</p>
+				</div>
+				<slot name="graph"></slot>
 			</div>
 		`
 	}
@@ -39,6 +41,12 @@ class CalculatorResults extends LitElement {
 				border-radius: 6px;
 				padding: 20px;
 				margin-bottom: 2rem;
+				height: 100%;
+			}
+			.results {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+				justify-items: center;
 			}
 		`
 	}

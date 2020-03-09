@@ -61,10 +61,10 @@ class CalculatorForm extends LitElement {
 				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
 				border-radius: 6px;
 				padding: 20px;
+				height: 100%;
 				margin-bottom: 2rem;
 			}
 			.input_form {
-				display: grid;
 
 			}
 			input {
@@ -75,6 +75,7 @@ class CalculatorForm extends LitElement {
 				font-size: 1rem;
 				padding: 0.5rem;
 				margin-bottom: 1rem;
+				backface-visibility: hidden;
 			}
 			input:focus {
 				outline-color: lightgray;
