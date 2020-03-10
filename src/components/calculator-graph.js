@@ -40,6 +40,11 @@ class CalculatorGraph extends LitElement {
 			.bar:hover, .bar:active {
 				padding: 1rem;
 			}
+			@media(hover: hover) and (pointer: fine) {
+			    .bar:hover {
+			        padding: 1rem;
+			    }
+			}
 			.bar:hover > .bar_price, .bar:active > .bar_price {
 				display: block;
 				padding: 0;
