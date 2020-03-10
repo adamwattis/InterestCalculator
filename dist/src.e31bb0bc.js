@@ -4004,7 +4004,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<h2>Calculator Graph</h2>\n\t\t\t\t<div id=\"graph\">\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<div id=\"graph\">\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -4145,7 +4145,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.card {\n\t\t\t  width: 100%;\n\t\t\t  perspective: 600px;\n\t\t\t  margin-bottom: 5rem;\n\n\t\t\t}\n\n\t\t\t.content {\n\t\t\t  height: 60vh;\n\n\t\t\t  transition: transform 0.5s;\n\t\t\t  transform-style: preserve-3d;\n\t\t\t}\n\n\t\t\t.flip .content {\n\t\t\t  transform: rotateY( 180deg ) ;\n\t\t\t  transition: transform 0.5s;\n\t\t\t}\n\n\t\t\t.front,\n\t\t\t.back {\n\t\t\t  position: absolute;\n\t\t\t  height: 100%;\n\t\t\t  width: 100%;\n\t\t\t  backface-visibility: hidden;\n\t\t\t}\n\n\t\t\t.back {\n\t\t\t  transform: rotateY( 180deg );\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.card {\n\t\t\t  width: 100%;\n\t\t\t  perspective: 600px;\n\t\t\t  margin-bottom: 5rem;\n\n\t\t\t}\n\n\t\t\t.content {\n\t\t\t  height: 50vh;\n\t\t\t  transition: transform 0.5s;\n\t\t\t  transform-style: preserve-3d;\n\t\t\t}\n\n\t\t\t.flip .content {\n\t\t\t  transform: rotateY( 180deg ) ;\n\t\t\t  -webkit-transform: rotateY(180deg);\n\t\t\t  transition: transform 0.5s;\n\t\t\t}\n\n\t\t\t.front,\n\t\t\t.back {\n\t\t\t  position: absolute;\n\t\t\t  height: 100%;\n\t\t\t  width: 100%;\n\t\t\t  backface-visibility: hidden;\n\t\t\t  -webkit-backface-visibility: hidden;\n\t\t\t}\n\n\t\t\t.back {\n\t\t\t  transform: rotateY( 180deg );\n\t\t\t  -webkit-transform: rotateY(180deg)\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4324,7 +4324,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49369" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59725" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -17,14 +17,14 @@ class CardFlipper extends LitElement {
 			}
 
 			.content {
-			  height: 60vh;
-
+			  height: 50vh;
 			  transition: transform 0.5s;
 			  transform-style: preserve-3d;
 			}
 
 			.flip .content {
 			  transform: rotateY( 180deg ) ;
+			  -webkit-transform: rotateY(180deg);
 			  transition: transform 0.5s;
 			}
 
@@ -34,10 +34,12 @@ class CardFlipper extends LitElement {
 			  height: 100%;
 			  width: 100%;
 			  backface-visibility: hidden;
+			  -webkit-backface-visibility: hidden;
 			}
 
 			.back {
 			  transform: rotateY( 180deg );
+			  -webkit-transform: rotateY(180deg)
 			}
 		`
 	}

@@ -64,7 +64,6 @@ class CalculatorGraph extends LitElement {
 	render() {
 		return html`
 			<div class="tile">
-				<h2>Calculator Graph</h2>
 				<div id="graph">
 					${this.incrementPairs().map((pair) => html`<div class="bar" style="height:${pair[1]}%;"><p class="bar_price">$${pair[0].toFixed(0)}</p></div>`)}
 				</div>
