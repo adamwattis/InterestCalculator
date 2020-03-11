@@ -12,8 +12,9 @@ class AppContainer extends LitElement {
 	constructor() {
 		super()
 		this.beginning = 100,
-		this.rate = 7,
-		this.years = 40,
+		this.rate = 5,
+		this.years = 10,
+		this.contribution = 0,
 		this.flip = false
 	}
 
@@ -59,7 +60,7 @@ class AppContainer extends LitElement {
 			}
 			#logoText {
 				padding: 1rem;
-				font-size: 1rem;
+				font-size: 1.5rem;
 			}
 			#logoGroup {
 				display: grid;
@@ -75,6 +76,7 @@ class AppContainer extends LitElement {
 			beginning: {type: String},
 			rate: {type: String},
 			years: {type: String},
+			contribution: {type: String},
 			flip: {type: Boolean}
 		}
 	}

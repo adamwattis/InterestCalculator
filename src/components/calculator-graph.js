@@ -26,12 +26,14 @@ class CalculatorGraph extends LitElement {
 				box-sizing: border-box;
 				width: 100%;
 				height: 30vh;
-				background-color: #DEE0E7;
 				display: grid;
 				grid-gap: 2px;
 				grid-auto-flow: column;
 				align-items: end;
 				padding: 0.5rem;
+				border-left: 2px solid rgb(4,215,165);
+				border-bottom: 2px solid rgb(4,215,165);
+				margin-bottom: 1rem;
 			}
 			.bar {
 				background: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);
@@ -40,11 +42,7 @@ class CalculatorGraph extends LitElement {
 			.bar:hover, .bar:active {
 				padding: 1rem;
 			}
-			@media(hover: hover) and (pointer: fine) {
-			    .bar:hover {
-			        padding: 1rem;
-			    }
-			}
+			
 			.bar:hover > .bar_price, .bar:active > .bar_price {
 				display: block;
 				padding: 0;
@@ -53,25 +51,17 @@ class CalculatorGraph extends LitElement {
 			}
 			.bar_price {
 				display: none;
-				color: lightgray;
+				color: #FFFF;
+				font-weight: bold;
 			}
-			.tile {
-				background: #EBECF0;
-				border: 1px solid rgba(255,255,255,0.40);
-				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
-				border-radius: 6px;
-				padding: 20px;
-				margin-bottom: 0.5rem;
-			}
+			
 		`
 	}
 
 	render() {
 		return html`
-			<div class="tile">
-				<div id="graph">
-					${this.incrementPairs().map((pair) => html`<div class="bar" style="height:${pair[1]}%;"><p class="bar_price">$${pair[0].toFixed(0)}</p></div>`)}
-				</div>
+			<div id="graph">
+				${this.incrementPairs().map((pair) => html`<div class="bar" style="height:${pair[1]}%;"><p class="bar_price">$${pair[0].toFixed(0)}</p></div>`)}
 			</div>
 		`
 	}

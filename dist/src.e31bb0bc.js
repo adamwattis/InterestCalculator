@@ -3826,7 +3826,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<form class=\"input_form\">\n\t\t\t\t\t<label for=\"beginning\">Initial Investment</label>\n\t\t\t\t\t<span class=\"input_icon\"> $ <input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t\t<label for=\"rate\">Rate of Interest</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\" \n\t\t\t\t\t\t\tstep=\"any\"/> % </span>\n\t\t\t\t\t<label for=\"years\">Calculation Period</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/> years</span>\n\t\t\t\t\t<label for=\"years\">Periodic Contribution</label>\n\t\t\t\t\t<span> $ <input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<form class=\"input_form\">\n\t\t\t\t\t<label for=\"beginning\">Initial Investment</label>\n\t\t\t\t\t<span class=\"input_icon\"> $ <input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t\t<label for=\"rate\">Rate of Interest</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\" \n\t\t\t\t\t\t\tstep=\"any\"/> % </span>\n\t\t\t\t\t<label for=\"years\">Calculation Period</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/> years</span>\n\t\t\t\t\t<label for=\"contribution\">Periodic Contribution</label>\n\t\t\t\t\t<span> $ <input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"contribution\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -3840,11 +3840,11 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 class CalculatorForm extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning = '', this.rate = '', this.years = '';
+    this.beginning = '100', this.rate = '5', this.years = '10', this.contribution = '0';
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.beginning, this.handleChange, this.rate, this.handleChange, this.years, this.handleChange, this.years, this.handleChange);
+    return (0, _litElement.html)(_templateObject(), this.beginning, this.handleChange, this.rate, this.handleChange, this.years, this.handleChange, this.contribution, this.handleChange);
   }
 
   static get properties() {
@@ -3856,6 +3856,9 @@ class CalculatorForm extends _litElement.LitElement {
         type: Number
       },
       years: {
+        type: Number
+      },
+      contribution: {
         type: Number
       }
     };
@@ -3923,8 +3926,18 @@ var _litElement = require("lit-element");
 
 var _calculator = require("../calculator.js");
 
+function _templateObject3() {
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t\theight: 100%;\n\t\t\t\tcolor: rgb(4,215,165);\n\t\t\t}\n\n\t\t\t.tile {\n\t\t\t\toverflow: scroll;\n\t\t\t}\n\t\t\t#payments {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr;\n\t\t\t\tgrid-gap: 6px;\n\t\t\t}\n\t\t\t.payment {\n\t\t\t\tborder: 2px solid rgb(4,215,165);\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t"]);
+
+  _templateObject3 = function () {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t\theight: 100%;\n\t\t\t}\n\t\t\t.results {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr 1fr;\n\t\t\t\tjustify-items: center;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["<div class=\"payment\">Year ", ": $", "</div>"]);
 
   _templateObject2 = function () {
     return data;
@@ -3934,7 +3947,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<div class=\"results\">\n\t\t\t\t\t<p>Beginning money: $", "</p>\n\t\t\t\t\t<p>Ending money: $", "</p>\n\t\t\t\t\t<p>Interest earned: $", "</p>\n\t\t\t\t</div>\n\t\t\t\t<slot name=\"graph\"></slot>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<p>In ", " years you will have $", " with a net gain of $", ".</p>\n\t\t\t\t<slot name=\"graph\"></slot>\n\t\t\t\t<div id=\"payments\">\n\t\t\t\t\t<div class=\"payment\">Year : $", "</div>\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -3952,7 +3965,7 @@ class CalculatorResults extends _litElement.LitElement {
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.beginning, this.endingMoney(), this.endingInterest());
+    return (0, _litElement.html)(_templateObject(), this.years, this.endingMoney(), this.endingInterest(), this.years, (0, _calculator.interestIncreases)(this.beginning, this.rate, this.years).map((incr, index) => (0, _litElement.html)(_templateObject2(), index, incr.toFixed(2))));
   }
 
   static get properties() {
@@ -3970,7 +3983,7 @@ class CalculatorResults extends _litElement.LitElement {
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject2());
+    return (0, _litElement.css)(_templateObject3());
   }
 
   endingInterest() {
@@ -4004,7 +4017,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<div id=\"graph\">\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"graph\">\n\t\t\t\t", "\n\t\t\t</div>\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -4014,7 +4027,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 30vh;\n\t\t\t\tbackground-color: #DEE0E7;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tborder-radius: 12px;\n\t\t\t}\n\t\t\t.bar:hover, .bar:active {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t.bar:hover > .bar_price, .bar:active > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: lightgray;\n\t\t\t}\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 0.5rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 30vh;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tborder-left: 2px solid rgb(4,215,165);\n\t\t\t\tborder-bottom: 2px solid rgb(4,215,165);\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tborder-radius: 12px;\n\t\t\t}\n\t\t\t.bar:hover, .bar:active {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t\n\t\t\t.bar:hover > .bar_price, .bar:active > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: #FFFF;\n\t\t\t\tfont-weight: bold;\n\t\t\t}\n\t\t\t\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4145,7 +4158,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.card {\n\t\t\t  width: 100%;\n\t\t\t  perspective: 600px;\n\t\t\t  margin-bottom: 5rem;\n\n\t\t\t}\n\n\t\t\t.content {\n\t\t\t  height: 50vh;\n\t\t\t  transition: transform 0.5s;\n\t\t\t  transform-style: preserve-3d;\n\t\t\t}\n\n\t\t\t.flip .content {\n\t\t\t  transform: rotateY( 180deg ) ;\n\t\t\t  -webkit-transform: rotateY(180deg);\n\t\t\t  transition: transform 0.5s;\n\t\t\t}\n\n\t\t\t.front,\n\t\t\t.back {\n\t\t\t  position: absolute;\n\t\t\t  height: 100%;\n\t\t\t  width: 100%;\n\t\t\t  backface-visibility: hidden;\n\t\t\t  -webkit-backface-visibility: hidden;\n\t\t\t}\n\n\t\t\t.back {\n\t\t\t  transform: rotateY( 180deg );\n\t\t\t  -webkit-transform: rotateY(180deg)\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.card {\n\t\t\t  width: 100%;\n\t\t\t  perspective: 600px;\n\t\t\t  margin-bottom: 5rem;\n\n\t\t\t}\n\n\t\t\t.content {\n\t\t\t  height: 55vh;\n\t\t\t  transition: transform 0.5s;\n\t\t\t  transform-style: preserve-3d;\n\t\t\t}\n\n\t\t\t.flip .content {\n\t\t\t  transform: rotateY( 180deg ) ;\n\t\t\t  -webkit-transform: rotateY(180deg);\n\t\t\t  transition: transform 0.5s;\n\t\t\t}\n\n\t\t\t.front,\n\t\t\t.back {\n\t\t\t  position: absolute;\n\t\t\t  height: 100%;\n\t\t\t  width: 100%;\n\t\t\t  backface-visibility: hidden;\n\t\t\t  -webkit-backface-visibility: hidden;\n\t\t\t}\n\n\t\t\t.back {\n\t\t\t  transform: rotateY( 180deg );\n\t\t\t  -webkit-transform: rotateY(180deg)\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4215,7 +4228,7 @@ var _cardFlipper = _interopRequireDefault(require("./card-flipper.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -4241,7 +4254,7 @@ const logo = require('../assets/yield_logo.svg');
 class AppContainer extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning = 100, this.rate = 7, this.years = 40, this.flip = false;
+    this.beginning = 100, this.rate = 5, this.years = 10, this.contribution = 0, this.flip = false;
   }
 
   render() {
@@ -4261,6 +4274,9 @@ class AppContainer extends _litElement.LitElement {
         type: String
       },
       years: {
+        type: String
+      },
+      contribution: {
         type: String
       },
       flip: {
@@ -4324,7 +4340,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55379" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

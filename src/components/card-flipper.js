@@ -17,7 +17,7 @@ class CardFlipper extends LitElement {
 			}
 
 			.content {
-			  height: 50vh;
+			  height: 55vh;
 			  transition: transform 0.5s;
 			  transform-style: preserve-3d;
 			}

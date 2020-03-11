@@ -6,9 +6,10 @@ class CalculatorForm extends LitElement {
 
 	constructor() {
 		super()
-		this.beginning = '',
-		this.rate = '',
-		this.years = ''
+		this.beginning = '100',
+		this.rate = '5',
+		this.years = '10',
+		this.contribution = '0'
 	}
 
 	render() {
@@ -34,11 +35,11 @@ class CalculatorForm extends LitElement {
 							name="years" 
 							value="${this.years}" 
 							@input="${this.handleChange}"/> years</span>
-					<label for="years">Periodic Contribution</label>
+					<label for="contribution">Periodic Contribution</label>
 					<span> $ <input 
 							type="number" 
-							name="years" 
-							value="${this.years}" 
+							name="contribution" 
+							value="${this.contribution}" 
 							@input="${this.handleChange}"/></span>
 				</form>
 			</div>
@@ -49,7 +50,8 @@ class CalculatorForm extends LitElement {
 		return {
 			beginning: {type: Number},
 			rate: {type: Number},
-			years: {type: Number}
+			years: {type: Number},
+			contribution: {type: Number}
 		}
 	}
 
