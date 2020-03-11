@@ -54,6 +54,7 @@ class AppContainer extends LitElement {
 			}
 			#app {
 				margin: 1rem;
+				height: 100vh;
 			}
 			#logo {
 				width: 100%;
@@ -66,7 +67,7 @@ class AppContainer extends LitElement {
 				display: grid;
 				grid-template-columns: 4rem 1fr;
 				align-items: center;
-				margin-bottom: 2rem;
+				margin-bottom: 1rem;
 			}
 		`
 	}

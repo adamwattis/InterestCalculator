@@ -3765,7 +3765,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\tinput {\n\t\t\t\tbackground-color: #E1E5E8;\n\t\t\t\tborder-radius: 8px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tborder: 0;\n\t\t\t\tbox-shadow: inset -3px -3px 10px 6px #ffff, inset 3px 3px 10px 2px #AEB4C1;\n\t\t\t}\n\t\t\tdiv {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\tinput {\n\t\t\t\tbackground-color: #E1E5E8;\n\t\t\t\tborder-radius: 8px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tborder: 0;\n\t\t\t\twidth: 100%;\n\t\t\t\tbox-shadow: inset -3px -3px 10px 6px #ffff, inset 3px 3px 10px 2px #AEB4C1;\n\t\t\t}\n\t\t\tdiv {\n\t\t\t\tdisplay: grid;\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -3816,7 +3816,7 @@ var _formInput = _interopRequireDefault(require("./form-input.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\theight: 100%;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t.input_form {\n\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t\tbackface-visibility: hidden;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tpadding: 0;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\theight: 100%;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t.input_form {\n\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t\tbackface-visibility: hidden;\n\t\t\t\twidth: 85%;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tpadding: 0;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -3927,7 +3927,7 @@ var _litElement = require("lit-element");
 var _calculator = require("../calculator.js");
 
 function _templateObject3() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t\theight: 100%;\n\t\t\t\tcolor: rgb(4,215,165);\n\t\t\t}\n\n\t\t\t.tile {\n\t\t\t\toverflow: scroll;\n\t\t\t}\n\t\t\t#payments {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr;\n\t\t\t\tgrid-gap: 6px;\n\t\t\t}\n\t\t\t.payment {\n\t\t\t\tborder: 2px solid rgb(4,215,165);\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t\theight: 100%;\n\t\t\t\tcolor: rgb(4,215,165);\n\t\t\t}\n\n\t\t\t.tile {\n\t\t\t\toverflow: scroll;\n\t\t\t}\n\t\t\t#payments {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr;\n\t\t\t\tgrid-gap: 6px;\n\t\t\t\ttext-align: center;\n\t\t\t}\n\t\t\t@media only screen and (min-width: 1024px) {\n\t\t\t\t#payments {\n\t\t\t\t\tgrid-template-columns: 1fr 1fr 1fr;\n\t\t\t\t}\n\t\t\t}\n\t\t\t.payment {\n\t\t\t\tborder: 2px solid rgb(4,215,165);\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t@media only screen and (max-width: 455px) {\n\t\t\t\t.payment {\n\t\t\t\t\tfont-size: 12px;\n\t\t\t\t}\n\t\t\t}\n\t\t"]);
 
   _templateObject3 = function () {
     return data;
@@ -3947,7 +3947,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<p>In ", " years you will have $", " with a net gain of $", ".</p>\n\t\t\t\t<slot name=\"graph\"></slot>\n\t\t\t\t<div id=\"payments\">\n\t\t\t\t\t<div class=\"payment\">Year : $", "</div>\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<p>In ", " years you will have $", " with a net gain of $", ".</p>\n\t\t\t\t<slot name=\"graph\"></slot>\n\t\t\t\t<div id=\"payments\">\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -3965,7 +3965,7 @@ class CalculatorResults extends _litElement.LitElement {
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.years, this.endingMoney(), this.endingInterest(), this.years, (0, _calculator.interestIncreases)(this.beginning, this.rate, this.years).map((incr, index) => (0, _litElement.html)(_templateObject2(), index, incr.toFixed(2))));
+    return (0, _litElement.html)(_templateObject(), this.years, this.endingMoney(), this.endingInterest(), (0, _calculator.interestIncreases)(this.beginning, this.rate, this.years).map((incr, index) => (0, _litElement.html)(_templateObject2(), index, incr.toFixed(2))));
   }
 
   static get properties() {
@@ -4228,7 +4228,7 @@ var _cardFlipper = _interopRequireDefault(require("./card-flipper.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t\theight: 100vh;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -4340,7 +4340,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55379" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51787" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -17,7 +17,6 @@ class CalculatorResults extends LitElement {
 				<p>In ${this.years} years you will have $${this.endingMoney()} with a net gain of $${this.endingInterest()}.</p>
 				<slot name="graph"></slot>
 				<div id="payments">
-					<div class="payment">Year : $${this.years}</div>
 					${interestIncreases(this.beginning, this.rate, this.years).map((incr, index) => html`<div class="payment">Year ${index}: $${incr.toFixed(2)}</div>`)}
 				</div>
 			</div>
@@ -52,11 +51,22 @@ class CalculatorResults extends LitElement {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
 				grid-gap: 6px;
+				text-align: center;
+			}
+			@media only screen and (min-width: 1024px) {
+				#payments {
+					grid-template-columns: 1fr 1fr 1fr;
+				}
 			}
 			.payment {
 				border: 2px solid rgb(4,215,165);
 				border-radius: 6px;
 				padding: 0.5rem;
+			}
+			@media only screen and (max-width: 455px) {
+				.payment {
+					font-size: 12px;
+				}
 			}
 		`
 	}

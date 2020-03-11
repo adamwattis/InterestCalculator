@@ -26,10 +26,12 @@ class FormInput extends LitElement {
 				font-size: 1rem;
 				padding: 0.5rem;
 				border: 0;
+				width: 100%;
 				box-shadow: inset -3px -3px 10px 6px #ffff, inset 3px 3px 10px 2px #AEB4C1;
 			}
 			div {
 				display: grid;
+				width: 100%;
 			}
 		`
 	}

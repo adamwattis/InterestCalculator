@@ -78,6 +78,7 @@ class CalculatorForm extends LitElement {
 				padding: 0.5rem;
 				margin-bottom: 1rem;
 				backface-visibility: hidden;
+				width: 85%;
 			}
 			input:focus {
 				outline-color: lightgray;
