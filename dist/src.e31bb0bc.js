@@ -3749,13 +3749,13 @@ LitElement['finalized'] = true;
  */
 
 LitElement.render = _shadyRender.render;
-},{"lit-html":"../node_modules/lit-html/lit-html.js","lit-html/lib/shady-render.js":"../node_modules/lit-html/lib/shady-render.js","./lib/updating-element.js":"../node_modules/lit-element/lib/updating-element.js","./lib/decorators.js":"../node_modules/lit-element/lib/decorators.js","lit-html/lit-html.js":"../node_modules/lit-html/lit-html.js","./lib/css-tag.js":"../node_modules/lit-element/lib/css-tag.js"}],"components/form-input.js":[function(require,module,exports) {
+},{"lit-html":"../node_modules/lit-html/lit-html.js","lit-html/lib/shady-render.js":"../node_modules/lit-html/lib/shady-render.js","./lib/updating-element.js":"../node_modules/lit-element/lib/updating-element.js","./lib/decorators.js":"../node_modules/lit-element/lib/decorators.js","lit-html/lit-html.js":"../node_modules/lit-html/lit-html.js","./lib/css-tag.js":"../node_modules/lit-element/lib/css-tag.js"}],"components/nav-bar.js":[function(require,module,exports) {
 "use strict";
 
 var _litElement = require("lit-element");
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div>\n\t\t\t<label for=\"", "\">", "</label>\n\t\t\t<input type=\"number\" name=\"", "\" value=\"", "\"/>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t#navbar {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\n\t\t\t#info {\n\t\t\t\tborder-radius: 50%;\n\t\t\t\twidth: 3rem;\n\t\t\t\theight: 3rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t\tcolor: #FFFFFF;\n\t\t\t\tjustify-self: end;\n\t\t\t\talign-self: center;\n\t\t\t\tborder: 2px #FFFFFF solid;\n\t\t\t\tbox-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;\n\t\t\t\tbackground: linear-gradient(0deg, rgba(0,118,255,1) 0%, rgba(0,174,255,1) 100%);\n\t\t\t}\n\t\t\tbutton:focus {\n\t\t\t\toutline-style: none;\n\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -3765,7 +3765,59 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\tinput {\n\t\t\t\tbackground-color: #E1E5E8;\n\t\t\t\tborder-radius: 8px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tborder: 0;\n\t\t\t\twidth: 100%;\n\t\t\t\tbox-shadow: inset -3px -3px 10px 6px #ffff, inset 3px 3px 10px 2px #AEB4C1;\n\t\t\t}\n\t\t\tdiv {\n\t\t\t\tdisplay: grid;\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div id='navbar'>\n\t\t\t\t<div id=\"logoGroup\">\n\t\t\t\t\t<img id=\"logo\" src=\"", "\"/>\n\t\t\t\t\t<h1 id=\"logoText\">Yield</h1>\n\t\t\t\t</div>\n\t\t\t\t<button id=\"info\">?</button>\t\n\t\t\t</div>\n\t\t"]);
+
+  _templateObject = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+class NavBar extends _litElement.LitElement {
+  constructor() {
+    super();
+    this.logo = '';
+  }
+
+  static get properties() {
+    return {
+      logo: {
+        type: String
+      }
+    };
+  }
+
+  render() {
+    return (0, _litElement.html)(_templateObject(), this.logo);
+  }
+
+  static get styles() {
+    return (0, _litElement.css)(_templateObject2());
+  }
+
+}
+
+customElements.define('nav-bar', NavBar);
+},{"lit-element":"../node_modules/lit-element/lit-element.js"}],"components/form-input.js":[function(require,module,exports) {
+"use strict";
+
+var _litElement = require("lit-element");
+
+function _templateObject2() {
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div>\n\t\t\t\t<label for=\"", "\">", "</label>\n\t\t\t\t<div id=\"inputGroup\">\n\t\t\t\t\t<span class=\"input_icon\">", "\n\t\t\t\t\t<span class=\"input_icon\"><input type=\"", "\" name=\"", "\" value=\"", "\"/></span>\n\t\t\t\t\t", "</span>\n\t\t\t\t </div>\n\t\t\t</div>\n\t\t"]);
+
+  _templateObject2 = function () {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  const data = _taggedTemplateLiteral(["\n\t\t\tinput {\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder-radius: 8px;\n\t\t\t\twidth: 80%;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t\tbackface-visibility: hidden;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\tdiv {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-rows:;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -3778,7 +3830,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 class FormInput extends _litElement.LitElement {
   constructor() {
-    super(), this.title = '', this.name = '', this.value = '';
+    super(), this.title = '', this.name = '', this.type = '', this.value = '', this.prefix = '', this.suffix = '';
   }
 
   static get properties() {
@@ -3789,8 +3841,17 @@ class FormInput extends _litElement.LitElement {
       name: {
         type: String
       },
+      type: {
+        type: String
+      },
       value: {
         type: Number
+      },
+      prefix: {
+        type: String
+      },
+      suffix: {
+        type: String
       }
     };
   }
@@ -3800,7 +3861,7 @@ class FormInput extends _litElement.LitElement {
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject2(), this.name, this.title, this.name, this.value);
+    return (0, _litElement.html)(_templateObject2(), this.name, this.title, this.prefix, this.type, this.name, this.value, this.suffix);
   }
 
 }
@@ -3816,7 +3877,7 @@ var _formInput = _interopRequireDefault(require("./form-input.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\theight: 100%;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t.input_form {\n\n\t\t\t}\n\t\t\tinput {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t\tbackface-visibility: hidden;\n\t\t\t\twidth: 85%;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tpadding: 0;\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t\tform {\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\theight: 100%;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -3826,7 +3887,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<form class=\"input_form\">\n\t\t\t\t\t<label for=\"beginning\">Initial Investment</label>\n\t\t\t\t\t<span class=\"input_icon\"> $ <input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t\t<label for=\"rate\">Rate of Interest</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\" \n\t\t\t\t\t\t\tstep=\"any\"/> % </span>\n\t\t\t\t\t<label for=\"years\">Calculation Period</label>\n\t\t\t\t\t<span><input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/> years</span>\n\t\t\t\t\t<label for=\"contribution\">Periodic Contribution</label>\n\t\t\t\t\t<span> $ <input \n\t\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\t\tname=\"contribution\" \n\t\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\t\t@input=\"", "\"/></span>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<form class=\"input_form\">\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Initial Investment\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tprefix=\"$\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Rate of Interest\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tsuffix=\"%\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Calculation Period\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tsuffix=\"years\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Periodic Contribution\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"contribution\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tprefix=\"$\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4107,7 +4168,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\tbutton {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tpadding: 1rem;\n\t\t\t\tcolor: #FFFFFF;\n\t\t\t\twidth: 100%;\n\t\t\t\tbox-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tborder: none;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\tbutton {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tpadding: 1rem;\n\t\t\t\tcolor: #FFFFFF;\n\t\t\t\twidth: 100%;\n\t\t\t\tbox-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tborder: 3px solid #EBECF0;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t\tbutton:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4215,6 +4276,8 @@ module.exports = "/yield_logo.283aac9b.svg";
 
 var _litElement = require("lit-element");
 
+var _navBar = _interopRequireDefault(require("./nav-bar.js"));
+
 var _calculatorForm = _interopRequireDefault(require("./calculator-form.js"));
 
 var _calculatorResults = _interopRequireDefault(require("./calculator-results.js"));
@@ -4228,7 +4291,7 @@ var _cardFlipper = _interopRequireDefault(require("./card-flipper.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin: 1rem;\n\t\t\t\theight: 100vh;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin-right: 1rem;\n\t\t\t\tmargin-left: 1rem;\n\t\t\t\tmargin-top: 0;\n\t\t\t\tmargin-bottom: 0;\n\t\t\t\tpadding-top: 0;\n\t\t\t\tpadding-bottom: 0;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-rows: 15vh auto auto;\n\t\t\t}\n\t\t\t@media only screen and (min-width: 1024px) {\n\t\t\t\t#app {\n\t\t\t\t\twidth: 70vw;\n\t\t\t\t\tjustify-self: center;\n\t\t\t\t}\n\t\t\t}\n\t\t"]);
 
   _templateObject2 = function () {
     return data;
@@ -4238,7 +4301,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"app\">\n\t\t\t\t<div id=\"logoGroup\">\n\t\t\t\t\t<img id=\"logo\" src=\"", "\"/>\n\t\t\t\t\t<h1 id=\"logoText\">Yield</h1>\n\t\t\t\t</div>\n\t\t\t\t<card-flipper state=\"", "\">\n\t\t\t\t\t<calculator-form slot=\"front\" @input=\"", "\"></calculator-form>\n\t\t\t\t\t<calculator-results \n\t\t\t\t\t\tslot=\"back\"\n\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\tyears=\"", "\">\n\t\t\t\t\t\t<calculator-graph\n\t\t\t\t\t\t\tslot=\"graph\"\n\t\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\t\tyears=\"", "\"></calculator-graph>\n\t\t\t\t\t</calculator-results>\n\t\t\t\t</card-flipper>\n\t\t\t\t<main-button @click=\"", "\" title=\"", "\"></main-button>\n\t\t\t</div>\n\t\t"]);
+  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"app\">\n\t\t\t\t<nav-bar logo=\"", "\"></nav-bar>\n\t\t\t\t<card-flipper state=\"", "\">\n\t\t\t\t\t<calculator-form slot=\"front\" @input=\"", "\"></calculator-form>\n\t\t\t\t\t<calculator-results \n\t\t\t\t\t\tslot=\"back\"\n\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\tyears=\"", "\">\n\t\t\t\t\t\t<calculator-graph\n\t\t\t\t\t\t\tslot=\"graph\"\n\t\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\t\tyears=\"", "\"></calculator-graph>\n\t\t\t\t\t</calculator-results>\n\t\t\t\t</card-flipper>\n\t\t\t\t<main-button @click=\"", "\" title=\"", "\"></main-button>\n\t\t\t</div>\n\t\t"]);
 
   _templateObject = function () {
     return data;
@@ -4296,7 +4359,7 @@ class AppContainer extends _litElement.LitElement {
 }
 
 customElements.define('app-container', AppContainer);
-},{"lit-element":"../node_modules/lit-element/lit-element.js","./calculator-form.js":"components/calculator-form.js","./calculator-results.js":"components/calculator-results.js","./calculator-graph.js":"components/calculator-graph.js","./main-button.js":"components/main-button.js","./card-flipper.js":"components/card-flipper.js","../assets/yield_logo.svg":"assets/yield_logo.svg"}],"index.js":[function(require,module,exports) {
+},{"lit-element":"../node_modules/lit-element/lit-element.js","./nav-bar.js":"components/nav-bar.js","./calculator-form.js":"components/calculator-form.js","./calculator-results.js":"components/calculator-results.js","./calculator-graph.js":"components/calculator-graph.js","./main-button.js":"components/main-button.js","./card-flipper.js":"components/card-flipper.js","../assets/yield_logo.svg":"assets/yield_logo.svg"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _appContainer = _interopRequireDefault(require("./components/app-container.js"));
@@ -4340,7 +4403,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51787" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53770" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

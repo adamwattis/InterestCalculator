@@ -16,32 +16,38 @@ class CalculatorForm extends LitElement {
 		return html`
 			<div class="tile">
 				<form class="input_form">
-					<label for="beginning">Initial Investment</label>
-					<span class="input_icon"> $ <input 
-							type="number" 
-							name="beginning" 
-							value="${this.beginning}" 
-							@input="${this.handleChange}"/></span>
-					<label for="rate">Rate of Interest</label>
-					<span><input 
-							type="number" 
-							name="rate" 
-							value="${this.rate}" 
-							@input="${this.handleChange}" 
-							step="any"/> % </span>
-					<label for="years">Calculation Period</label>
-					<span><input 
-							type="number" 
-							name="years" 
-							value="${this.years}" 
-							@input="${this.handleChange}"/> years</span>
-					<label for="contribution">Periodic Contribution</label>
-					<span> $ <input 
-							type="number" 
-							name="contribution" 
-							value="${this.contribution}" 
-							@input="${this.handleChange}"/></span>
-					<form-input></form-input>
+					<form-input 
+						title="Initial Investment" 
+						type="number" 
+						name="beginning" 
+						value="${this.beginning}" 
+						prefix="$"
+						@input="${this.handleChange}"
+						></form-input>
+					<form-input 
+						title="Rate of Interest" 
+						type="number" 
+						name="rate" 
+						value="${this.rate}" 
+						suffix="%"
+						@input="${this.handleChange}"
+						></form-input>
+					<form-input 
+						title="Calculation Period" 
+						type="number" 
+						name="years" 
+						value="${this.years}" 
+						suffix="years"
+						@input="${this.handleChange}"
+						></form-input>
+					<form-input 
+						title="Periodic Contribution" 
+						type="number" 
+						name="contribution" 
+						value="${this.contribution}" 
+						prefix="$"
+						@input="${this.handleChange}"
+						></form-input>
 				</form>
 			</div>
 		`
@@ -67,27 +73,7 @@ class CalculatorForm extends LitElement {
 				height: 100%;
 				margin-bottom: 2rem;
 			}
-			.input_form {
-
-			}
-			input {
-				background: #EBECF0;
-				border: 1px solid rgba(255,255,255,0.40);
-				box-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;
-				border-radius: 6px;
-				font-size: 1rem;
-				padding: 0.5rem;
-				margin-bottom: 1rem;
-				backface-visibility: hidden;
-				width: 85%;
-			}
-			input:focus {
-				outline-color: lightgray;
-			}
-			.input_icon {
-				padding: 0;
-				position: relative;
-			}
+			
 		`
 	}
 

@@ -7,6 +7,7 @@ class FormInput extends LitElement {
 		super(),
 		this.title = '',
 		this.name = '',
+		this.type = '',
 		this.value = '',
 		this.prefix = '',
 		this.suffix = ''
@@ -16,6 +17,7 @@ class FormInput extends LitElement {
 		return {
 			title: {type: String},
 			name: {type: String},
+			type: {type: String},
 			value: {type: Number},
 			prefix: {type: String},
 			suffix: {type: String}
@@ -29,6 +31,7 @@ class FormInput extends LitElement {
 				box-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;
 				background: #EBECF0;
 				border-radius: 8px;
+				width: 80%;
 				font-size: 1rem;
 				padding: 0.5rem;
 				margin-bottom: 1rem;
@@ -39,7 +42,10 @@ class FormInput extends LitElement {
 			}
 			div {
 				display: grid;
-				width: 100%;
+				grid-template-rows:;
+			}
+			.input_icon {
+				position: relative;
 			}
 		`
 	}
@@ -47,18 +53,12 @@ class FormInput extends LitElement {
 	render() {
 		return html`
 			<div>
-			<label for="${this.name}">${this.title}</label>
-			<input type="number" name="${this.name}" value="${this.value}"/>
-
-
-			<label for="beginning">Initial Investment</label>
-			<span class="input_icon"> $ <input 
-					type="number" 
-					name="beginning" 
-					value="${this.beginning}" 
-					@input="${this.handleChange}"/></span>
-
-
+				<label for="${this.name}">${this.title}</label>
+				<div id="inputGroup">
+					<span class="input_icon">${this.prefix}
+					<span class="input_icon"><input type="${this.type}" name="${this.name}" value="${this.value}"/></span>
+					${this.suffix}</span>
+				 </div>
 			</div>
 		`
 	}

@@ -49,6 +49,7 @@ class AppContainer extends LitElement {
 				font-family: 'M PLUS Rounded 1c', sans-serif;
 				font-style: normal;
 				font-weight: 200;
+				display: grid;
 			}
 			#app {
 				margin-right: 1rem;
@@ -58,7 +59,13 @@ class AppContainer extends LitElement {
 				padding-top: 0;
 				padding-bottom: 0;
 				display: grid;
-				grid-template-rows: 15vh 70vh 15vh;
+				grid-template-rows: 15vh auto auto;
+			}
+			@media only screen and (min-width: 1024px) {
+				#app {
+					width: 70vw;
+					justify-self: center;
+				}
 			}
 		`
 	}
