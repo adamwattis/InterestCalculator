@@ -16,8 +16,11 @@ class MainButton extends LitElement {
 				width: 100%;
 				box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
 				border-radius: 6px;
-				border: none;
+				border: 3px solid #EBECF0;
 				font-size: 1rem;
+			}
+			button:focus {
+				outline-color: lightgray;
 			}
 		`
 	}

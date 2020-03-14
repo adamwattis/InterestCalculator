@@ -41,6 +41,7 @@ class CalculatorForm extends LitElement {
 							name="contribution" 
 							value="${this.contribution}" 
 							@input="${this.handleChange}"/></span>
+					<form-input></form-input>
 				</form>
 			</div>
 		`
@@ -86,9 +87,6 @@ class CalculatorForm extends LitElement {
 			.input_icon {
 				padding: 0;
 				position: relative;
-			}
-			form {
-				display: grid;
 			}
 		`
 	}

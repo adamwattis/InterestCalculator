@@ -7,27 +7,35 @@ class FormInput extends LitElement {
 		super(),
 		this.title = '',
 		this.name = '',
-		this.value = ''
+		this.value = '',
+		this.prefix = '',
+		this.suffix = ''
 	}
 
 	static get properties() {
 		return {
 			title: {type: String},
 			name: {type: String},
-			value: {type: Number}
+			value: {type: Number},
+			prefix: {type: String},
+			suffix: {type: String}
 		}
 	}
 
 	static get styles() {
 		return css`
 			input {
-				background-color: #E1E5E8;
+				border: 1px solid rgba(255,255,255,0.40);
+				box-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;
+				background: #EBECF0;
 				border-radius: 8px;
 				font-size: 1rem;
 				padding: 0.5rem;
-				border: 0;
-				width: 100%;
-				box-shadow: inset -3px -3px 10px 6px #ffff, inset 3px 3px 10px 2px #AEB4C1;
+				margin-bottom: 1rem;
+				backface-visibility: hidden;
+			}
+			input:focus {
+				outline-color: lightgray;
 			}
 			div {
 				display: grid;
@@ -41,6 +49,16 @@ class FormInput extends LitElement {
 			<div>
 			<label for="${this.name}">${this.title}</label>
 			<input type="number" name="${this.name}" value="${this.value}"/>
+
+
+			<label for="beginning">Initial Investment</label>
+			<span class="input_icon"> $ <input 
+					type="number" 
+					name="beginning" 
+					value="${this.beginning}" 
+					@input="${this.handleChange}"/></span>
+
+
 			</div>
 		`
 	}

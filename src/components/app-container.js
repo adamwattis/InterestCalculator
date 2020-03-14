@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit-element'
 
+import NavBar from './nav-bar.js'
 import CalculatorForm from './calculator-form.js'
 import CalculatorResults from './calculator-results.js'
 import CalculatorGraph from './calculator-graph.js'
@@ -21,10 +22,7 @@ class AppContainer extends LitElement {
 	render() {
 		return html`
 			<div id="app">
-				<div id="logoGroup">
-					<img id="logo" src="${logo}"/>
-					<h1 id="logoText">Yield</h1>
-				</div>
+				<nav-bar logo="${logo}"></nav-bar>
 				<card-flipper state="${this.flip ? 'flip' : 'none'}">
 					<calculator-form slot="front" @input="${this.handleInput}"></calculator-form>
 					<calculator-results 
@@ -55,6 +53,8 @@ class AppContainer extends LitElement {
 			#app {
 				margin: 1rem;
 				height: 100vh;
+				display: grid;
+				grid-template-rows: 15vh 70vh 15vh;
 			}
 			#logo {
 				width: 100%;
