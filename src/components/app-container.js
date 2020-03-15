@@ -6,6 +6,7 @@ import CalculatorResults from './calculator-results.js'
 import CalculatorGraph from './calculator-graph.js'
 import MainButton from './main-button.js'
 import CardFlipper from './card-flipper.js'
+import InfoModal from './info-modal.js'
 const logo = require('../assets/yield_logo.svg')
 
 class AppContainer extends LitElement {
@@ -16,13 +17,14 @@ class AppContainer extends LitElement {
 		this.rate = 5,
 		this.years = 10,
 		this.contribution = 0,
-		this.flip = false
+		this.flip = false,
+		this.infoModal = false
 	}
 
 	render() {
 		return html`
 			<div id="app">
-				<nav-bar logo="${logo}"></nav-bar>
+				<nav-bar logo="${logo}" @click="${this.handleInfoButton}"></nav-bar>
 				<card-flipper state="${this.flip ? 'flip' : 'none'}">
 					<calculator-form slot="front" @input="${this.handleInput}"></calculator-form>
 					<calculator-results 
@@ -38,6 +40,7 @@ class AppContainer extends LitElement {
 					</calculator-results>
 				</card-flipper>
 				<main-button @click="${this.handleClick}" title="${this.flip ? 'Reset' : 'Calculate'}"></main-button>
+				<info-modal open="${this.infoModal ? 'open' : 'none'}"></info-modal>
 			</div>
 		`
 	}
@@ -59,7 +62,7 @@ class AppContainer extends LitElement {
 				padding-top: 0;
 				padding-bottom: 0;
 				display: grid;
-				grid-template-rows: 15vh auto auto;
+				grid-template-rows: 15vh  auto;
 			}
 			@media only screen and (min-width: 1024px) {
 				#app {
@@ -76,8 +79,13 @@ class AppContainer extends LitElement {
 			rate: {type: String},
 			years: {type: String},
 			contribution: {type: String},
-			flip: {type: Boolean}
+			flip: {type: Boolean},
+			infoModal: {type: String}
 		}
+	}
+	handleInfoButton(event) {
+		this.infoModal = this.infoModal ? false : true
+		setTimeout(() => {this.infoModal = false}, 3000)
 	}
 	handleClick(event) {
 		this.flip = this.flip ? false : true
