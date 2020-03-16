@@ -26,26 +26,26 @@ class FormInput extends LitElement {
 
 	static get styles() {
 		return css`
+			#inputGroup {
+				display: flex;
+			}
 			input {
 				border: 1px solid rgba(255,255,255,0.40);
 				box-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;
 				background: #EBECF0;
 				border-radius: 8px;
-				width: 80%;
 				font-size: 1rem;
 				padding: 1rem;
+				min-width: 10%;
 				margin-bottom: 1rem;
 				backface-visibility: hidden;
+				flex: 1;
 			}
 			input:focus {
 				outline-color: lightgray;
 			}
-			div {
-				display: grid;
-				grid-template-rows:;
-			}
 			.input_icon {
-				position: relative;
+				padding: 1rem;
 			}
 		`
 	}
@@ -55,9 +55,9 @@ class FormInput extends LitElement {
 			<div>
 				<label for="${this.name}">${this.title}</label>
 				<div id="inputGroup">
-					<span class="input_icon">${this.prefix}
-					<span class="input_icon"><input @input="${this.handleInput}" type="${this.type}" name="${this.name}" value="${this.value}"/></span>
-					${this.suffix}</span>
+					<span class="${this.prefix ? 'input_icon' : ''}">${this.prefix}</span>
+					<input @input="${this.handleInput}" type="${this.type}" name="${this.name}" value="${this.value}"/>
+					<span class="${this.suffix ? 'input_icon' : ''}">${this.suffix}</span>
 				 </div>
 			</div>
 		`

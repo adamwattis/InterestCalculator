@@ -9,7 +9,8 @@ class CalculatorResults extends LitElement {
 		this.beginning,
 		this.rate,
 		this.years,
-		this.contribution
+		this.contribution,
+		this.contributionFreq
 	}
 
 	render() {
@@ -18,7 +19,7 @@ class CalculatorResults extends LitElement {
 				<p>In ${this.years} years with an interest rate of ${this.rate}% you will have $${this.endingMoney()} with a net gain of $${this.endingInterest()}.</p>
 				<slot name="graph"></slot>
 				<div id="payments">
-					${interestIncreases(this.beginning, this.rate, this.years, this.contribution).map((incr, index) => html`<div class="payment">Year ${index}: $${incr.toFixed(2)}</div>`)}
+					${interestIncreases(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).map((incr, index) => html`<div class="payment">Year ${index}: $${incr.toFixed(2)}</div>`)}
 				</div>
 			</div>
 		`
@@ -29,7 +30,8 @@ class CalculatorResults extends LitElement {
 			beginning: {type: Number},
 			rate: {type: Number},
 			years: {type: Number},
-			contribution: {type: Number}
+			contribution: {type: Number},
+			contributionFreq: {type: Number}
 		}
 	}
 
@@ -74,12 +76,12 @@ class CalculatorResults extends LitElement {
 	}
 
 	endingInterest() {
-		let interest = compoundedInterest(this.beginning, this.rate, this.years, this.contribution).toFixed(2)
+		let interest = compoundedInterest(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).toFixed(2)
 		return interest
 	}
 
 	endingMoney() {
-		let total = compoundedTotal(this.beginning, this.rate, this.years, this.contribution).toFixed(2)
+		let total = compoundedTotal(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).toFixed(2)
 		return total
 	}
 }

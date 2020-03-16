@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element'
 
 import FormInput from './form-input.js'
+import FrequencySelector from './frequency-selector.js'
 
 class CalculatorForm extends LitElement {
 
@@ -9,7 +10,8 @@ class CalculatorForm extends LitElement {
 		this.beginning = '100',
 		this.rate = '5',
 		this.years = '10',
-		this.contribution = '100'
+		this.contribution = '100',
+		this.contributionFreq = '1'
 	}
 
 	render() {
@@ -40,14 +42,18 @@ class CalculatorForm extends LitElement {
 						suffix="years"
 						@input="${this.handleChange}"
 						></form-input>
-					<form-input 
-						title="Periodic Contribution" 
-						type="number" 
-						name="contribution" 
-						value="${this.contribution}" 
-						prefix="$"
-						@input="${this.handleChange}"
-						></form-input>
+					<div class="input_group">
+						<form-input 
+							title="Periodic Contribution" 
+							type="number" 
+							name="contribution" 
+							value="${this.contribution}" 
+							prefix="$"
+							@input="${this.handleChange}"
+							></form-input>
+						<frequency-selector @input="${this.handleChange}" name="contributionFreq"></frequency-selector>
+					</div>
+					<frequency-selector label="Compounding frequency"></frequency-selector>
 				</form>
 			</div>
 		`
@@ -58,7 +64,8 @@ class CalculatorForm extends LitElement {
 			beginning: {type: Number},
 			rate: {type: Number},
 			years: {type: Number},
-			contribution: {type: Number}
+			contribution: {type: Number},
+			contributionFreq: {type: Number}
 		}
 	}
 
@@ -73,7 +80,22 @@ class CalculatorForm extends LitElement {
 				height: 100%;
 				margin-bottom: 2rem;
 			}
-			
+			.input_form {
+				display: grid;
+			}
+			.input_group {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				grid-gap: 8px;
+			}
+			form-input {
+				position: relative;
+			}
+			@media only screen and (max-width: 455px) {
+				.input_group {
+					grid-template-columns: 60% 1fr;
+				}
+			}
 		`
 	}
 
@@ -85,7 +107,7 @@ class CalculatorForm extends LitElement {
 			}
 		})
 		this.dispatchEvent(newEvent)
-		this[event.target.name] = event.target.value
+		this[event.detail.name] = event.detail.value
 	}
 }
 

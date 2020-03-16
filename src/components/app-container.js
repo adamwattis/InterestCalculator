@@ -17,6 +17,7 @@ class AppContainer extends LitElement {
 		this.rate = 5,
 		this.years = 10,
 		this.contribution = 100,
+		this.contributionFreq = 1,
 		this.flip = false,
 		this.infoModal = false
 	}
@@ -32,13 +33,15 @@ class AppContainer extends LitElement {
 						beginning="${this.beginning}"
 						rate="${this.rate}"
 						years="${this.years}"
-						contribution="${this.contribution}">
+						contribution="${this.contribution}"
+						contributionFreq="${this.contributionFreq}">
 						<calculator-graph
 							slot="graph"
 							beginning="${this.beginning}"
 							rate="${this.rate}"
 							years="${this.years}"
-							contribution="${this.contribution}"></calculator-graph>
+							contribution="${this.contribution}"
+							contributionFreq="${this.contributionFreq}"></calculator-graph>
 					</calculator-results>
 				</card-flipper>
 				<main-button @click="${this.handleClick}" title="${this.flip ? 'Reset' : 'Calculate'}"></main-button>
@@ -81,6 +84,7 @@ class AppContainer extends LitElement {
 			rate: {type: String},
 			years: {type: String},
 			contribution: {type: String},
+			contributionFreq: {type: String},
 			flip: {type: Boolean},
 			infoModal: {type: String}
 		}
@@ -94,6 +98,7 @@ class AppContainer extends LitElement {
 	}
 
 	handleInput(event) {
+		console.log(event.detail)
 		this[event.detail.name] = event.detail.value
 	}
 }

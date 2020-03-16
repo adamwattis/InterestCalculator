@@ -10,7 +10,8 @@ class CalculatorGraph extends LitElement {
 		this.beginning,
 		this.rate,
 		this.years,
-		this.contribution
+		this.contribution,
+		this.contributionFreq
 	}
 
 	static get properties() {
@@ -18,7 +19,8 @@ class CalculatorGraph extends LitElement {
 			beginning: {type: Number},
 			rate: {type: Number},
 			years: {type: Number},
-			contribution: {type: Number}
+			contribution: {type: Number},
+			contributionFreq: {type: Number}
 		}
 	}
 
@@ -68,7 +70,7 @@ class CalculatorGraph extends LitElement {
 		`
 	}
 	increments() {
-		let increases = interestIncreases(this.beginning, this.rate, this.years, this.contribution)
+		let increases = interestIncreases(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq)
 		return increases
 	}
 	scaledIncrements() {
