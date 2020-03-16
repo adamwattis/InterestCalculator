@@ -16,7 +16,7 @@ class AppContainer extends LitElement {
 		this.beginning = 100,
 		this.rate = 5,
 		this.years = 10,
-		this.contribution = 0,
+		this.contribution = 100,
 		this.flip = false,
 		this.infoModal = false
 	}
@@ -31,15 +31,18 @@ class AppContainer extends LitElement {
 						slot="back"
 						beginning="${this.beginning}"
 						rate="${this.rate}"
-						years="${this.years}">
+						years="${this.years}"
+						contribution="${this.contribution}">
 						<calculator-graph
 							slot="graph"
 							beginning="${this.beginning}"
 							rate="${this.rate}"
-							years="${this.years}"></calculator-graph>
+							years="${this.years}"
+							contribution="${this.contribution}"></calculator-graph>
 					</calculator-results>
 				</card-flipper>
 				<main-button @click="${this.handleClick}" title="${this.flip ? 'Reset' : 'Calculate'}"></main-button>
+				<span class="footer">Made with LitElement</span>
 				<info-modal open="${this.infoModal ? 'open' : 'none'}"></info-modal>
 			</div>
 		`
@@ -69,6 +72,10 @@ class AppContainer extends LitElement {
 					width: 70vw;
 					justify-self: center;
 				}
+			}
+			.footer {
+				color: lightgray;
+				text-align: center;
 			}
 		`
 	}

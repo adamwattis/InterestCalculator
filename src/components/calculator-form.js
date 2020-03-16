@@ -9,7 +9,7 @@ class CalculatorForm extends LitElement {
 		this.beginning = '100',
 		this.rate = '5',
 		this.years = '10',
-		this.contribution = '0'
+		this.contribution = '100'
 	}
 
 	render() {
@@ -80,8 +80,8 @@ class CalculatorForm extends LitElement {
 	handleChange(event) {
 		let newEvent = new CustomEvent('input', {
 			detail: {
-				name: event.target.name,
-				value: event.target.value
+				name: event.detail.name,
+				value: event.detail.value
 			}
 		})
 		this.dispatchEvent(newEvent)

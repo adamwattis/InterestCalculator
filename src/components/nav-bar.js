@@ -48,8 +48,8 @@ class NavBar extends LitElement {
 
 			#info {
 				border-radius: 50%;
-				width: 3rem;
-				height: 3rem;
+				width: 50px;
+				height: 50px;
 				font-size: 1.5rem;
 				color: #FFFFFF;
 				justify-self: end;

@@ -17,7 +17,6 @@ class InfoModal extends LitElement {
 		return html`
 			<div id="modal" class="${this.open == 'open' ? 'open' : 'none'}">
 				<div id="modalContainer">
-					<h3>About Yield</h3>
 					<p>Yield is a compounded interest calculator that shows you how your
 					investments will grow over time.</p>
 				</div>

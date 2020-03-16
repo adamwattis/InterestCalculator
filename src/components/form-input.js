@@ -33,7 +33,7 @@ class FormInput extends LitElement {
 				border-radius: 8px;
 				width: 80%;
 				font-size: 1rem;
-				padding: 0.5rem;
+				padding: 1rem;
 				margin-bottom: 1rem;
 				backface-visibility: hidden;
 			}
@@ -56,11 +56,21 @@ class FormInput extends LitElement {
 				<label for="${this.name}">${this.title}</label>
 				<div id="inputGroup">
 					<span class="input_icon">${this.prefix}
-					<span class="input_icon"><input type="${this.type}" name="${this.name}" value="${this.value}"/></span>
+					<span class="input_icon"><input @input="${this.handleInput}" type="${this.type}" name="${this.name}" value="${this.value}"/></span>
 					${this.suffix}</span>
 				 </div>
 			</div>
 		`
+	}
+
+	handleInput(event) {
+		let newEvent = new CustomEvent('input', {
+			detail: {
+				name: event.target.name,
+				value: event.target.value
+			}
+		})
+		this.dispatchEvent(newEvent)
 	}
 }
 customElements.define('form-input', FormInput)
