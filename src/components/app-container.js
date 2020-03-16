@@ -42,7 +42,6 @@ class AppContainer extends LitElement {
 					</calculator-results>
 				</card-flipper>
 				<main-button @click="${this.handleClick}" title="${this.flip ? 'Reset' : 'Calculate'}"></main-button>
-				<span class="footer">Made with LitElement</span>
 				<info-modal open="${this.infoModal ? 'open' : 'none'}"></info-modal>
 			</div>
 		`
@@ -72,10 +71,6 @@ class AppContainer extends LitElement {
 					width: 70vw;
 					justify-self: center;
 				}
-			}
-			.footer {
-				color: lightgray;
-				text-align: center;
 			}
 		`
 	}

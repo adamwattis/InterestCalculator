@@ -54,10 +54,10 @@ class NavBar extends LitElement {
 				color: #FFFFFF;
 				justify-self: end;
 				align-self: center;
+				padding 10px;
 				border: 2px #FFFFFF solid;
 				box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
 				background: linear-gradient(0deg, rgba(0,118,255,1) 0%, rgba(0,174,255,1) 100%);
-				text-align: center;
 			}
 			button:focus {
 				outline-style: none;
