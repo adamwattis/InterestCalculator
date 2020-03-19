@@ -13,6 +13,7 @@ class AppContainer extends LitElement {
 
 	constructor() {
 		super()
+		window.scrollTo(0, 1); 
 		this.beginning = 100,
 		this.rate = 5,
 		this.years = 10,

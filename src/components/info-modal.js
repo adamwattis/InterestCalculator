@@ -35,7 +35,6 @@ class InfoModal extends LitElement {
 				height: 100%;
 				background-color: rgba(0, 0, 0, .5);
 				display: grid;
-				transition: opacity .3s ease;
 				justify-items: center;
 				align-items: center;
 				grid-gap: 5rem;
