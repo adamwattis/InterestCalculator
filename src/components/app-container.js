@@ -60,14 +60,15 @@ class AppContainer extends LitElement {
 				display: grid;
 			}
 			#app {
-				margin-right: 1rem;
-				margin-left: 1rem;
+				margin: 1rem;
 				margin-top: 0;
 				margin-bottom: 0;
 				padding-top: 0;
 				padding-bottom: 0;
 				display: grid;
-				grid-template-rows: 15vh  auto;
+				height: 100vh;
+				max-height: 100vh;
+				grid-template-rows: 1fr 5fr 1fr;
 			}
 			@media only screen and (min-width: 1024px) {
 				#app {

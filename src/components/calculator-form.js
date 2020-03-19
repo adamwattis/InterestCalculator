@@ -80,6 +80,9 @@ class CalculatorForm extends LitElement {
 				height: 100%;
 				margin-bottom: 2rem;
 			}
+			.tile {
+				overflow: scroll;
+			}
 			.input_form {
 				display: grid;
 			}
@@ -88,9 +91,7 @@ class CalculatorForm extends LitElement {
 				grid-template-columns: 1fr 1fr;
 				grid-gap: 8px;
 			}
-			form-input {
-				position: relative;
-			}
+			
 			@media only screen and (max-width: 455px) {
 				.input_group {
 					grid-template-columns: 60% 1fr;

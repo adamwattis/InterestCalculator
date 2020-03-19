@@ -58,6 +58,11 @@ class FrequencySelector extends LitElement {
 					background-position: right .7em top 50%, 0 0;
 					background-size: .65em auto, 100%;
 			}
+			@media only screen and (max-width: 455px) {
+				select {
+					text-indent: 0;
+				}
+			}
 		`
 	}
 
