@@ -85,6 +85,8 @@ class CalculatorForm extends LitElement {
 			}
 			.input_form {
 				display: grid;
+				position:relative;
+				height: 100%;
 			}
 			.input_group {
 				display: grid;
