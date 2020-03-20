@@ -45,7 +45,7 @@ class FrequencySelector extends LitElement {
 					color: #00AEFF;
 					text-indent: 45%;
 					box-sizing: border-box;
-					margin-top: 7px;
+					margin-top: 10px;
 					background: #EBECF0;
 					border: none;
 					box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
