@@ -33,6 +33,8 @@ class FormInput extends LitElement {
 				border: 1px solid rgba(255,255,255,0.40);
 				box-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;
 				background: #EBECF0;
+				-moz-appearance: none;
+				-webkit-appearance: none;
 				border-radius: 8px;
 				font-size: 1rem;
 				padding: 0.8rem;
