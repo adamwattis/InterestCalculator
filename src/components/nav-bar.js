@@ -20,7 +20,7 @@ class NavBar extends LitElement {
 					<img id="logo" src="${this.logo}"/>
 					<h1 id="logoText">Yield</h1>
 				</div>
-				<button id="info"><span>?</span></button>	
+				<button @click="${this.handleClick}" id="info"><span>?</span></button>	
 			</div>
 		`
 	}
@@ -54,6 +54,7 @@ class NavBar extends LitElement {
 				color: #FFFFFF;
 				justify-self: end;
 				align-self: center;
+				display: block;
 				border: 2px #FFFFFF solid;
 				box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
 				background: linear-gradient(0deg, rgba(0,118,255,1) 0%, rgba(0,174,255,1) 100%);
@@ -63,6 +64,16 @@ class NavBar extends LitElement {
 
 			}
 		`
+	}
+
+	handleClick(event) {
+		let newEvent = new CustomEvent('click', {
+			detail: {
+				name: '',
+				value: ''
+			}
+		})
+		this.dispatchEvent(newEvent)
 	}
 }
 
