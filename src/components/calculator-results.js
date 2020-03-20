@@ -16,7 +16,7 @@ class CalculatorResults extends LitElement {
 	render() {
 		return html`
 			<div class="tile">
-				<p>In ${this.years} years with an interest rate of ${this.rate}% you will have $${this.endingMoney()} with a net gain of $${this.endingInterest()}.</p>
+				<p>In ${this.years ? this.years : '0'} years with an interest rate of ${this.rate ? this.rate : '0'}% you will have $${this.endingMoney()} with a net gain of $${this.endingInterest()}.</p>
 				<slot name="graph"></slot>
 				<div id="payments">
 					${interestIncreases(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).map((incr, index) => html`<div class="payment">Year ${index}: $${incr.toFixed(2)}</div>`)}

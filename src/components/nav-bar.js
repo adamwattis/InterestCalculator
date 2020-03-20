@@ -67,12 +67,7 @@ class NavBar extends LitElement {
 	}
 
 	handleClick(event) {
-		let newEvent = new CustomEvent('click', {
-			detail: {
-				name: '',
-				value: ''
-			}
-		})
+		let newEvent = new CustomEvent('button-click')
 		this.dispatchEvent(newEvent)
 	}
 }

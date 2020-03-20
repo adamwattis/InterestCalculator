@@ -25,7 +25,7 @@ class AppContainer extends LitElement {
 	render() {
 		return html`
 			<div id="app">
-				<nav-bar logo="${logo}" @click="${this.handleInfoButton}"></nav-bar>
+				<nav-bar logo="${logo}" @button-click="${this.handleInfoButton}"></nav-bar>
 				<card-flipper state="${this.flip ? 'flip' : 'none'}">
 					<calculator-form slot="front" @input="${this.handleInput}"></calculator-form>
 					<calculator-results 
