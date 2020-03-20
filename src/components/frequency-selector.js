@@ -38,7 +38,7 @@ class FrequencySelector extends LitElement {
 			select {
 				display: block;
 					font-size: 1rem;
-					padding: 1rem;
+					padding: 0.7rem;
 					width: 100%;
 					max-width: 100%;
 					font-family: 'M PLUS Rounded 1c', sans-serif;
