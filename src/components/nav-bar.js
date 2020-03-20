@@ -20,7 +20,7 @@ class NavBar extends LitElement {
 					<img id="logo" src="${this.logo}"/>
 					<h1 id="logoText">Yield</h1>
 				</div>
-				<button id="info">?</button>	
+				<button id="info"><span>?</span></button>	
 			</div>
 		`
 	}

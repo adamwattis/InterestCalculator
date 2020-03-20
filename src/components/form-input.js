@@ -35,7 +35,7 @@ class FormInput extends LitElement {
 				background: #EBECF0;
 				border-radius: 8px;
 				font-size: 1rem;
-				padding: 1rem;
+				padding: 0.8rem;
 				min-width: 10%;
 				margin-bottom: 1rem;
 				backface-visibility: hidden;
