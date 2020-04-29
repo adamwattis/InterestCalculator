@@ -54,7 +54,7 @@ class AppContainer extends LitElement {
 		return css`
 			:host {
 				background-color: #EBECF0;
-				font-family: 'M PLUS Rounded 1c', sans-serif;
+				font-family: 'Comfortaa', cursive;
 				font-style: normal;
 				font-weight: 200;
 				display: grid;

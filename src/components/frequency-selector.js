@@ -41,7 +41,7 @@ class FrequencySelector extends LitElement {
 					padding: 0.7rem;
 					width: 100%;
 					max-width: 100%;
-					font-family: 'M PLUS Rounded 1c', sans-serif;
+					font-family: 'Comfortaa', cursive;
 					color: #00AEFF;
 					text-indent: 45%;
 					box-sizing: border-box;

@@ -18,6 +18,7 @@ class MainButton extends LitElement {
 				border-radius: 6px;
 				border: 3px solid #EBECF0;
 				font-size: 1rem;
+				font-family: 'Comfortaa', cursive;
 			}
 			button:focus {
 				outline-color: lightgray;
