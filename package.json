@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "npx parcel src/index.html",
-    "build": "npx parcel build src/index.html"
+    "build": "parcel build src/index.html"
   },
   "author": "Adam Wattis",
   "license": "ISC",
@@ -18,6 +18,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
-    "cssnano": "^3.10.0"
+    "cssnano": "^3.10.0",
+    "parcel-bundler": "^1.12.5"
   }
 }
