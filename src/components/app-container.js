@@ -7,7 +7,7 @@ import CalculatorGraph from './calculator-graph.js'
 import MainButton from './main-button.js'
 import CardFlipper from './card-flipper.js'
 import InfoModal from './info-modal.js'
-const logo = require('../assets/yield_logo_small.svg')
+import logo from '../assets/yield_logo_small.svg'
 
 class AppContainer extends LitElement {
 
