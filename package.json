@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "npx parcel src/index.html"
+    "serve": "npx parcel src/index.html",
+    "build": "npx parcel build src/index.html"
   },
   "author": "Adam Wattis",
   "license": "ISC",
@@ -17,6 +18,6 @@
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
-    "cssnano": "^4.1.10"
+    "cssnano": "^3.10.0"
   }
 }
