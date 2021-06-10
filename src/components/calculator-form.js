@@ -80,6 +80,9 @@ class CalculatorForm extends LitElement {
 				height: 100%;
 				margin-bottom: 2rem;
 			}
+			.tile::-webkit-scrollbar {
+				display: none;
+			}
 			.tile {
 				overflow: scroll;
 			}

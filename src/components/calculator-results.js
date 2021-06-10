@@ -47,7 +47,9 @@ class CalculatorResults extends LitElement {
 				height: 100%;
 				color: rgb(4,215,165);
 			}
-
+			.tile::-webkit-scrollbar {
+				display: none;
+			}
 			.tile {
 				overflow: scroll;
 			}
