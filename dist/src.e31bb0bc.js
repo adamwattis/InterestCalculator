@@ -117,83 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../node_modules/lit-html/lib/directive.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isDirective = exports.directive = void 0;
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-const directives = new WeakMap();
-/**
- * Brands a function as a directive factory function so that lit-html will call
- * the function during template rendering, rather than passing as a value.
- *
- * A _directive_ is a function that takes a Part as an argument. It has the
- * signature: `(part: Part) => void`.
- *
- * A directive _factory_ is a function that takes arguments for data and
- * configuration and returns a directive. Users of directive usually refer to
- * the directive factory as the directive. For example, "The repeat directive".
- *
- * Usually a template author will invoke a directive factory in their template
- * with relevant arguments, which will then return a directive function.
- *
- * Here's an example of using the `repeat()` directive factory that takes an
- * array and a function to render an item:
- *
- * ```js
- * html`<ul><${repeat(items, (item) => html`<li>${item}</li>`)}</ul>`
- * ```
- *
- * When `repeat` is invoked, it returns a directive function that closes over
- * `items` and the template function. When the outer template is rendered, the
- * return directive function is called with the Part for the expression.
- * `repeat` then performs it's custom logic to render multiple items.
- *
- * @param f The directive factory function. Must be a function that returns a
- * function of the signature `(part: Part) => void`. The returned function will
- * be called with the part object.
- *
- * @example
- *
- * import {directive, html} from 'lit-html';
- *
- * const immutable = directive((v) => (part) => {
- *   if (part.value !== v) {
- *     part.setValue(v)
- *   }
- * });
- */
-
-const directive = f => (...args) => {
-  const d = f(...args);
-  directives.set(d, true);
-  return d;
-};
-
-exports.directive = directive;
-
-const isDirective = o => {
-  return typeof o === 'function' && directives.has(o);
-};
-
-exports.isDirective = isDirective;
-},{}],"../node_modules/lit-html/lib/dom.js":[function(require,module,exports) {
+})({"../node_modules/lit-html/lib/dom.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -218,7 +142,7 @@ exports.removeNodes = exports.reparentNodes = exports.isCEPolyfill = void 0;
 /**
  * True if the custom elements polyfill is in use.
  */
-const isCEPolyfill = window.customElements !== undefined && window.customElements.polyfillWrapFlushCallback !== undefined;
+const isCEPolyfill = typeof window !== 'undefined' && window.customElements != null && window.customElements.polyfillWrapFlushCallback !== undefined;
 /**
  * Reparents nodes, starting from `start` (inclusive) to `end` (exclusive),
  * into another container (could be the same container), before `before`. If
@@ -251,40 +175,6 @@ const removeNodes = (container, start, end = null) => {
 };
 
 exports.removeNodes = removeNodes;
-},{}],"../node_modules/lit-html/lib/part.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.nothing = exports.noChange = void 0;
-
-/**
- * @license
- * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * A sentinel value that signals that a value was handled by a directive and
- * should not be written to the DOM.
- */
-const noChange = {};
-/**
- * A sentinel value that signals a NodePart to fully clear its content.
- */
-
-exports.noChange = noChange;
-const nothing = {};
-exports.nothing = nothing;
 },{}],"../node_modules/lit-html/lib/template.js":[function(require,module,exports) {
 "use strict";
 
@@ -328,7 +218,7 @@ const markerRegex = new RegExp(`${marker}|${nodeMarker}`);
 exports.markerRegex = markerRegex;
 const boundAttributeSuffix = '$lit$';
 /**
- * An updateable Template that tracks the location of dynamic parts.
+ * An updatable Template that tracks the location of dynamic parts.
  */
 
 exports.boundAttributeSuffix = boundAttributeSuffix;
@@ -564,8 +454,287 @@ const createMarker = () => document.createComment('');
 
 
 exports.createMarker = createMarker;
-const lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+const lastAttributeNameRegex = // eslint-disable-next-line no-control-regex
+/([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
 exports.lastAttributeNameRegex = lastAttributeNameRegex;
+},{}],"../node_modules/lit-html/lib/modify-template.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.removeNodesFromTemplate = removeNodesFromTemplate;
+exports.insertNodeIntoTemplate = insertNodeIntoTemplate;
+
+var _template = require("./template.js");
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+const walkerNodeFilter = 133
+/* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */
+;
+/**
+ * Removes the list of nodes from a Template safely. In addition to removing
+ * nodes from the Template, the Template part indices are updated to match
+ * the mutated Template DOM.
+ *
+ * As the template is walked the removal state is tracked and
+ * part indices are adjusted as needed.
+ *
+ * div
+ *   div#1 (remove) <-- start removing (removing node is div#1)
+ *     div
+ *       div#2 (remove)  <-- continue removing (removing node is still div#1)
+ *         div
+ * div <-- stop removing since previous sibling is the removing node (div#1,
+ * removed 4 nodes)
+ */
+
+function removeNodesFromTemplate(template, nodesToRemove) {
+  const {
+    element: {
+      content
+    },
+    parts
+  } = template;
+  const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
+  let partIndex = nextActiveIndexInTemplateParts(parts);
+  let part = parts[partIndex];
+  let nodeIndex = -1;
+  let removeCount = 0;
+  const nodesToRemoveInTemplate = [];
+  let currentRemovingNode = null;
+
+  while (walker.nextNode()) {
+    nodeIndex++;
+    const node = walker.currentNode; // End removal if stepped past the removing node
+
+    if (node.previousSibling === currentRemovingNode) {
+      currentRemovingNode = null;
+    } // A node to remove was found in the template
+
+
+    if (nodesToRemove.has(node)) {
+      nodesToRemoveInTemplate.push(node); // Track node we're removing
+
+      if (currentRemovingNode === null) {
+        currentRemovingNode = node;
+      }
+    } // When removing, increment count by which to adjust subsequent part indices
+
+
+    if (currentRemovingNode !== null) {
+      removeCount++;
+    }
+
+    while (part !== undefined && part.index === nodeIndex) {
+      // If part is in a removed node deactivate it by setting index to -1 or
+      // adjust the index as needed.
+      part.index = currentRemovingNode !== null ? -1 : part.index - removeCount; // go to the next active part.
+
+      partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+      part = parts[partIndex];
+    }
+  }
+
+  nodesToRemoveInTemplate.forEach(n => n.parentNode.removeChild(n));
+}
+
+const countNodes = node => {
+  let count = node.nodeType === 11
+  /* Node.DOCUMENT_FRAGMENT_NODE */
+  ? 0 : 1;
+  const walker = document.createTreeWalker(node, walkerNodeFilter, null, false);
+
+  while (walker.nextNode()) {
+    count++;
+  }
+
+  return count;
+};
+
+const nextActiveIndexInTemplateParts = (parts, startIndex = -1) => {
+  for (let i = startIndex + 1; i < parts.length; i++) {
+    const part = parts[i];
+
+    if ((0, _template.isTemplatePartActive)(part)) {
+      return i;
+    }
+  }
+
+  return -1;
+};
+/**
+ * Inserts the given node into the Template, optionally before the given
+ * refNode. In addition to inserting the node into the Template, the Template
+ * part indices are updated to match the mutated Template DOM.
+ */
+
+
+function insertNodeIntoTemplate(template, node, refNode = null) {
+  const {
+    element: {
+      content
+    },
+    parts
+  } = template; // If there's no refNode, then put node at end of template.
+  // No part indices need to be shifted in this case.
+
+  if (refNode === null || refNode === undefined) {
+    content.appendChild(node);
+    return;
+  }
+
+  const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
+  let partIndex = nextActiveIndexInTemplateParts(parts);
+  let insertCount = 0;
+  let walkerIndex = -1;
+
+  while (walker.nextNode()) {
+    walkerIndex++;
+    const walkerNode = walker.currentNode;
+
+    if (walkerNode === refNode) {
+      insertCount = countNodes(node);
+      refNode.parentNode.insertBefore(node, refNode);
+    }
+
+    while (partIndex !== -1 && parts[partIndex].index === walkerIndex) {
+      // If we've inserted the node, simply adjust all subsequent parts
+      if (insertCount > 0) {
+        while (partIndex !== -1) {
+          parts[partIndex].index += insertCount;
+          partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+        }
+
+        return;
+      }
+
+      partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
+    }
+  }
+}
+},{"./template.js":"../node_modules/lit-html/lib/template.js"}],"../node_modules/lit-html/lib/directive.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isDirective = exports.directive = void 0;
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+const directives = new WeakMap();
+/**
+ * Brands a function as a directive factory function so that lit-html will call
+ * the function during template rendering, rather than passing as a value.
+ *
+ * A _directive_ is a function that takes a Part as an argument. It has the
+ * signature: `(part: Part) => void`.
+ *
+ * A directive _factory_ is a function that takes arguments for data and
+ * configuration and returns a directive. Users of directive usually refer to
+ * the directive factory as the directive. For example, "The repeat directive".
+ *
+ * Usually a template author will invoke a directive factory in their template
+ * with relevant arguments, which will then return a directive function.
+ *
+ * Here's an example of using the `repeat()` directive factory that takes an
+ * array and a function to render an item:
+ *
+ * ```js
+ * html`<ul><${repeat(items, (item) => html`<li>${item}</li>`)}</ul>`
+ * ```
+ *
+ * When `repeat` is invoked, it returns a directive function that closes over
+ * `items` and the template function. When the outer template is rendered, the
+ * return directive function is called with the Part for the expression.
+ * `repeat` then performs it's custom logic to render multiple items.
+ *
+ * @param f The directive factory function. Must be a function that returns a
+ * function of the signature `(part: Part) => void`. The returned function will
+ * be called with the part object.
+ *
+ * @example
+ *
+ * import {directive, html} from 'lit-html';
+ *
+ * const immutable = directive((v) => (part) => {
+ *   if (part.value !== v) {
+ *     part.setValue(v)
+ *   }
+ * });
+ */
+
+const directive = f => (...args) => {
+  const d = f(...args);
+  directives.set(d, true);
+  return d;
+};
+
+exports.directive = directive;
+
+const isDirective = o => {
+  return typeof o === 'function' && directives.has(o);
+};
+
+exports.isDirective = isDirective;
+},{}],"../node_modules/lit-html/lib/part.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.nothing = exports.noChange = void 0;
+
+/**
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * A sentinel value that signals that a value was handled by a directive and
+ * should not be written to the DOM.
+ */
+const noChange = {};
+/**
+ * A sentinel value that signals a NodePart to fully clear its content.
+ */
+
+exports.noChange = noChange;
+const nothing = {};
+exports.nothing = nothing;
 },{}],"../node_modules/lit-html/lib/template-instance.js":[function(require,module,exports) {
 "use strict";
 
@@ -590,10 +759,6 @@ var _template = require("./template.js");
  * Code distributed by Google as part of the polymer project is also
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * @module lit-html
  */
 
 /**
@@ -647,7 +812,7 @@ class TemplateInstance {
     // Given these constraints, with full custom elements support we would
     // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
     //
-    // But Safari dooes not implement CustomElementRegistry#upgrade, so we
+    // But Safari does not implement CustomElementRegistry#upgrade, so we
     // can not implement that order and still have upgrade-before-update and
     // upgrade disconnected fragments. So we instead sacrifice the
     // process-before-upgrade constraint, since in Custom Elements v1 elements
@@ -760,6 +925,18 @@ var _template = require("./template.js");
 /**
  * @module lit-html
  */
+
+/**
+ * Our TrustedTypePolicy for HTML which is declared using the html template
+ * tag function.
+ *
+ * That HTML is a developer-authored constant, and is parsed with innerHTML
+ * before any untrusted expressions have been mixed in. Therefor it is
+ * considered safe by construction.
+ */
+const policy = window.trustedTypes && trustedTypes.createPolicy('lit-html', {
+  createHTML: s => s
+});
 const commentMarker = ` ${_template.marker} `;
 /**
  * The return type of `html`, which holds a Template and the values from
@@ -787,7 +964,7 @@ class TemplateResult {
       const s = this.strings[i]; // For each binding we want to determine the kind of marker to insert
       // into the template source before it's parsed by the browser's HTML
       // parser. The marker type is based on whether the expression is in an
-      // attribute, text, or comment poisition.
+      // attribute, text, or comment position.
       //   * For node-position bindings we insert a comment with the marker
       //     sentinel as its text content, like <!--{{lit-guid}}-->.
       //   * For attribute bindings we insert just the marker sentinel for the
@@ -806,7 +983,7 @@ class TemplateResult {
       // comment close. Because <-- can appear in an attribute value there can
       // be false positives.
 
-      isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceeding the
+      isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceding the
       // expression. This can match "name=value" like structures in text,
       // comments, and attribute values, so there can be false-positives.
 
@@ -814,7 +991,7 @@ class TemplateResult {
 
       if (attributeMatch === null) {
         // We're only in this branch if we don't have a attribute-like
-        // preceeding sequence. For comments, this guards against unusual
+        // preceding sequence. For comments, this guards against unusual
         // attribute values like <div foo="<!--${'bar'}">. Cases like
         // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
         // below.
@@ -833,7 +1010,17 @@ class TemplateResult {
 
   getTemplateElement() {
     const template = document.createElement('template');
-    template.innerHTML = this.getHTML();
+    let value = this.getHTML();
+
+    if (policy !== undefined) {
+      // this is secure because `this.strings` is a TemplateStringsArray.
+      // TODO: validate this when
+      // https://github.com/tc39/proposal-array-is-template-object is
+      // implemented.
+      value = policy.createHTML(value);
+    }
+
+    template.innerHTML = value;
     return template;
   }
 
@@ -899,10 +1086,6 @@ var _template = require("./template.js");
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-
-/**
- * @module lit-html
- */
 const isPrimitive = value => {
   return value === null || !(typeof value === 'object' || typeof value === 'function');
 };
@@ -910,12 +1093,12 @@ const isPrimitive = value => {
 exports.isPrimitive = isPrimitive;
 
 const isIterable = value => {
-  return Array.isArray(value) || // tslint:disable-next-line:no-any
+  return Array.isArray(value) || // eslint-disable-next-line @typescript-eslint/no-explicit-any
   !!(value && value[Symbol.iterator]);
 };
 /**
  * Writes attribute values to the DOM for a group of AttributeParts bound to a
- * single attibute. The value is only set once even if there are multiple parts
+ * single attribute. The value is only set once even if there are multiple parts
  * for an attribute.
  */
 
@@ -946,11 +1129,37 @@ class AttributeCommitter {
   _getValue() {
     const strings = this.strings;
     const l = strings.length - 1;
+    const parts = this.parts; // If we're assigning an attribute via syntax like:
+    //    attr="${foo}"  or  attr=${foo}
+    // but not
+    //    attr="${foo} ${bar}" or attr="${foo} baz"
+    // then we don't want to coerce the attribute value into one long
+    // string. Instead we want to just return the value itself directly,
+    // so that sanitizeDOMValue can get the actual value rather than
+    // String(value)
+    // The exception is if v is an array, in which case we do want to smash
+    // it together into a string without calling String() on the array.
+    //
+    // This also allows trusted values (when using TrustedTypes) being
+    // assigned to DOM sinks without being stringified in the process.
+
+    if (l === 1 && strings[0] === '' && strings[1] === '') {
+      const v = parts[0].value;
+
+      if (typeof v === 'symbol') {
+        return String(v);
+      }
+
+      if (typeof v === 'string' || !isIterable(v)) {
+        return v;
+      }
+    }
+
     let text = '';
 
     for (let i = 0; i < l; i++) {
       text += strings[i];
-      const part = this.parts[i];
+      const part = parts[i];
 
       if (part !== undefined) {
         const v = part.value;
@@ -1090,6 +1299,10 @@ class NodePart {
   }
 
   commit() {
+    if (this.startNode.parentNode === null) {
+      return;
+    }
+
     while ((0, _directive.isDirective)(this.__pendingValue)) {
       const directive = this.__pendingValue;
       this.__pendingValue = _part.noChange;
@@ -1322,7 +1535,7 @@ class PropertyCommitter extends AttributeCommitter {
 
   commit() {
     if (this.dirty) {
-      this.dirty = false; // tslint:disable-next-line:no-any
+      this.dirty = false; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
       this.element[this.name] = this._getValue();
     }
@@ -1333,27 +1546,31 @@ class PropertyCommitter extends AttributeCommitter {
 exports.PropertyCommitter = PropertyCommitter;
 
 class PropertyPart extends AttributePart {} // Detect event listener options support. If the `capture` property is read
-// from the options object, then options are supported. If not, then the thrid
+// from the options object, then options are supported. If not, then the third
 // argument to add/removeEventListener is interpreted as the boolean capture
 // value so we should only pass the `capture` property.
 
 
 exports.PropertyPart = PropertyPart;
-let eventOptionsSupported = false;
+let eventOptionsSupported = false; // Wrap into an IIFE because MS Edge <= v41 does not support having try/catch
+// blocks right into the body of a module
 
-try {
-  const options = {
-    get capture() {
-      eventOptionsSupported = true;
-      return false;
-    }
+(() => {
+  try {
+    const options = {
+      get capture() {
+        eventOptionsSupported = true;
+        return false;
+      }
 
-  }; // tslint:disable-next-line:no-any
+    }; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-  window.addEventListener('test', options, options); // tslint:disable-next-line:no-any
+    window.addEventListener('test', options, options); // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-  window.removeEventListener('test', options, options);
-} catch (_e) {}
+    window.removeEventListener('test', options, options);
+  } catch (_e) {// event options not supported
+  }
+})();
 
 class EventPart {
   constructor(element, eventName, eventContext) {
@@ -1419,78 +1636,7 @@ const getOptions = o => o && (eventOptionsSupported ? {
   passive: o.passive,
   once: o.once
 } : o.capture);
-},{"./directive.js":"../node_modules/lit-html/lib/directive.js","./dom.js":"../node_modules/lit-html/lib/dom.js","./part.js":"../node_modules/lit-html/lib/part.js","./template-instance.js":"../node_modules/lit-html/lib/template-instance.js","./template-result.js":"../node_modules/lit-html/lib/template-result.js","./template.js":"../node_modules/lit-html/lib/template.js"}],"../node_modules/lit-html/lib/default-template-processor.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.defaultTemplateProcessor = exports.DefaultTemplateProcessor = void 0;
-
-var _parts = require("./parts.js");
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * Creates Parts when a template is instantiated.
- */
-class DefaultTemplateProcessor {
-  /**
-   * Create parts for an attribute-position binding, given the event, attribute
-   * name, and string literals.
-   *
-   * @param element The element containing the binding
-   * @param name  The attribute name
-   * @param strings The string literals. There are always at least two strings,
-   *   event for fully-controlled bindings with a single expression.
-   */
-  handleAttributeExpressions(element, name, strings, options) {
-    const prefix = name[0];
-
-    if (prefix === '.') {
-      const committer = new _parts.PropertyCommitter(element, name.slice(1), strings);
-      return committer.parts;
-    }
-
-    if (prefix === '@') {
-      return [new _parts.EventPart(element, name.slice(1), options.eventContext)];
-    }
-
-    if (prefix === '?') {
-      return [new _parts.BooleanAttributePart(element, name.slice(1), strings)];
-    }
-
-    const committer = new _parts.AttributeCommitter(element, name, strings);
-    return committer.parts;
-  }
-  /**
-   * Create parts for a text-position binding.
-   * @param templateFactory
-   */
-
-
-  handleTextExpression(options) {
-    return new _parts.NodePart(options);
-  }
-
-}
-
-exports.DefaultTemplateProcessor = DefaultTemplateProcessor;
-const defaultTemplateProcessor = new DefaultTemplateProcessor();
-exports.defaultTemplateProcessor = defaultTemplateProcessor;
-},{"./parts.js":"../node_modules/lit-html/lib/parts.js"}],"../node_modules/lit-html/lib/template-factory.js":[function(require,module,exports) {
+},{"./directive.js":"../node_modules/lit-html/lib/directive.js","./dom.js":"../node_modules/lit-html/lib/dom.js","./part.js":"../node_modules/lit-html/lib/part.js","./template-instance.js":"../node_modules/lit-html/lib/template-instance.js","./template-result.js":"../node_modules/lit-html/lib/template-result.js","./template.js":"../node_modules/lit-html/lib/template.js"}],"../node_modules/lit-html/lib/template-factory.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1583,10 +1729,6 @@ var _templateFactory = require("./template-factory.js");
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-
-/**
- * @module lit-html
- */
 const parts = new WeakMap();
 /**
  * Renders a template result or other value to a container.
@@ -1622,7 +1764,78 @@ const render = (result, container, options) => {
 };
 
 exports.render = render;
-},{"./dom.js":"../node_modules/lit-html/lib/dom.js","./parts.js":"../node_modules/lit-html/lib/parts.js","./template-factory.js":"../node_modules/lit-html/lib/template-factory.js"}],"../node_modules/lit-html/lit-html.js":[function(require,module,exports) {
+},{"./dom.js":"../node_modules/lit-html/lib/dom.js","./parts.js":"../node_modules/lit-html/lib/parts.js","./template-factory.js":"../node_modules/lit-html/lib/template-factory.js"}],"../node_modules/lit-html/lib/default-template-processor.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.defaultTemplateProcessor = exports.DefaultTemplateProcessor = void 0;
+
+var _parts = require("./parts.js");
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * Creates Parts when a template is instantiated.
+ */
+class DefaultTemplateProcessor {
+  /**
+   * Create parts for an attribute-position binding, given the event, attribute
+   * name, and string literals.
+   *
+   * @param element The element containing the binding
+   * @param name  The attribute name
+   * @param strings The string literals. There are always at least two strings,
+   *   event for fully-controlled bindings with a single expression.
+   */
+  handleAttributeExpressions(element, name, strings, options) {
+    const prefix = name[0];
+
+    if (prefix === '.') {
+      const committer = new _parts.PropertyCommitter(element, name.slice(1), strings);
+      return committer.parts;
+    }
+
+    if (prefix === '@') {
+      return [new _parts.EventPart(element, name.slice(1), options.eventContext)];
+    }
+
+    if (prefix === '?') {
+      return [new _parts.BooleanAttributePart(element, name.slice(1), strings)];
+    }
+
+    const committer = new _parts.AttributeCommitter(element, name, strings);
+    return committer.parts;
+  }
+  /**
+   * Create parts for a text-position binding.
+   * @param templateFactory
+   */
+
+
+  handleTextExpression(options) {
+    return new _parts.NodePart(options);
+  }
+
+}
+
+exports.DefaultTemplateProcessor = DefaultTemplateProcessor;
+const defaultTemplateProcessor = new DefaultTemplateProcessor();
+exports.defaultTemplateProcessor = defaultTemplateProcessor;
+},{"./parts.js":"../node_modules/lit-html/lib/parts.js"}],"../node_modules/lit-html/lit-html.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1836,8 +2049,7 @@ var _template = require("./lib/template.js");
  * -  [[svg]]
  * -  [[render]]
  *
- * @module lit-html
- * @preferred
+ * @packageDocumentation
  */
 
 /**
@@ -1848,11 +2060,14 @@ var _template = require("./lib/template.js");
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for lit-html usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
+if (typeof window !== 'undefined') {
+  (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.4.1');
+}
 /**
  * Interprets a template literal as an HTML template that can efficiently
  * render to and update a container.
  */
+
 
 const html = (strings, ...values) => new _templateResult.TemplateResult(strings, values, 'html', _defaultTemplateProcessor.defaultTemplateProcessor);
 /**
@@ -1866,179 +2081,7 @@ exports.html = html;
 const svg = (strings, ...values) => new _templateResult.SVGTemplateResult(strings, values, 'svg', _defaultTemplateProcessor.defaultTemplateProcessor);
 
 exports.svg = svg;
-},{"./lib/default-template-processor.js":"../node_modules/lit-html/lib/default-template-processor.js","./lib/template-result.js":"../node_modules/lit-html/lib/template-result.js","./lib/directive.js":"../node_modules/lit-html/lib/directive.js","./lib/dom.js":"../node_modules/lit-html/lib/dom.js","./lib/part.js":"../node_modules/lit-html/lib/part.js","./lib/parts.js":"../node_modules/lit-html/lib/parts.js","./lib/render.js":"../node_modules/lit-html/lib/render.js","./lib/template-factory.js":"../node_modules/lit-html/lib/template-factory.js","./lib/template-instance.js":"../node_modules/lit-html/lib/template-instance.js","./lib/template.js":"../node_modules/lit-html/lib/template.js"}],"../node_modules/lit-html/lib/modify-template.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.removeNodesFromTemplate = removeNodesFromTemplate;
-exports.insertNodeIntoTemplate = insertNodeIntoTemplate;
-
-var _template = require("./template.js");
-
-/**
- * @license
- * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at
- * http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at
- * http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at
- * http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at
- * http://polymer.github.io/PATENTS.txt
- */
-
-/**
- * @module shady-render
- */
-const walkerNodeFilter = 133
-/* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */
-;
-/**
- * Removes the list of nodes from a Template safely. In addition to removing
- * nodes from the Template, the Template part indices are updated to match
- * the mutated Template DOM.
- *
- * As the template is walked the removal state is tracked and
- * part indices are adjusted as needed.
- *
- * div
- *   div#1 (remove) <-- start removing (removing node is div#1)
- *     div
- *       div#2 (remove)  <-- continue removing (removing node is still div#1)
- *         div
- * div <-- stop removing since previous sibling is the removing node (div#1,
- * removed 4 nodes)
- */
-
-function removeNodesFromTemplate(template, nodesToRemove) {
-  const {
-    element: {
-      content
-    },
-    parts
-  } = template;
-  const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
-  let partIndex = nextActiveIndexInTemplateParts(parts);
-  let part = parts[partIndex];
-  let nodeIndex = -1;
-  let removeCount = 0;
-  const nodesToRemoveInTemplate = [];
-  let currentRemovingNode = null;
-
-  while (walker.nextNode()) {
-    nodeIndex++;
-    const node = walker.currentNode; // End removal if stepped past the removing node
-
-    if (node.previousSibling === currentRemovingNode) {
-      currentRemovingNode = null;
-    } // A node to remove was found in the template
-
-
-    if (nodesToRemove.has(node)) {
-      nodesToRemoveInTemplate.push(node); // Track node we're removing
-
-      if (currentRemovingNode === null) {
-        currentRemovingNode = node;
-      }
-    } // When removing, increment count by which to adjust subsequent part indices
-
-
-    if (currentRemovingNode !== null) {
-      removeCount++;
-    }
-
-    while (part !== undefined && part.index === nodeIndex) {
-      // If part is in a removed node deactivate it by setting index to -1 or
-      // adjust the index as needed.
-      part.index = currentRemovingNode !== null ? -1 : part.index - removeCount; // go to the next active part.
-
-      partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
-      part = parts[partIndex];
-    }
-  }
-
-  nodesToRemoveInTemplate.forEach(n => n.parentNode.removeChild(n));
-}
-
-const countNodes = node => {
-  let count = node.nodeType === 11
-  /* Node.DOCUMENT_FRAGMENT_NODE */
-  ? 0 : 1;
-  const walker = document.createTreeWalker(node, walkerNodeFilter, null, false);
-
-  while (walker.nextNode()) {
-    count++;
-  }
-
-  return count;
-};
-
-const nextActiveIndexInTemplateParts = (parts, startIndex = -1) => {
-  for (let i = startIndex + 1; i < parts.length; i++) {
-    const part = parts[i];
-
-    if ((0, _template.isTemplatePartActive)(part)) {
-      return i;
-    }
-  }
-
-  return -1;
-};
-/**
- * Inserts the given node into the Template, optionally before the given
- * refNode. In addition to inserting the node into the Template, the Template
- * part indices are updated to match the mutated Template DOM.
- */
-
-
-function insertNodeIntoTemplate(template, node, refNode = null) {
-  const {
-    element: {
-      content
-    },
-    parts
-  } = template; // If there's no refNode, then put node at end of template.
-  // No part indices need to be shifted in this case.
-
-  if (refNode === null || refNode === undefined) {
-    content.appendChild(node);
-    return;
-  }
-
-  const walker = document.createTreeWalker(content, walkerNodeFilter, null, false);
-  let partIndex = nextActiveIndexInTemplateParts(parts);
-  let insertCount = 0;
-  let walkerIndex = -1;
-
-  while (walker.nextNode()) {
-    walkerIndex++;
-    const walkerNode = walker.currentNode;
-
-    if (walkerNode === refNode) {
-      insertCount = countNodes(node);
-      refNode.parentNode.insertBefore(node, refNode);
-    }
-
-    while (partIndex !== -1 && parts[partIndex].index === walkerIndex) {
-      // If we've inserted the node, simply adjust all subsequent parts
-      if (insertCount > 0) {
-        while (partIndex !== -1) {
-          parts[partIndex].index += insertCount;
-          partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
-        }
-
-        return;
-      }
-
-      partIndex = nextActiveIndexInTemplateParts(parts, partIndex);
-    }
-  }
-}
-},{"./template.js":"../node_modules/lit-html/lib/template.js"}],"../node_modules/lit-html/lib/shady-render.js":[function(require,module,exports) {
+},{"./lib/default-template-processor.js":"../node_modules/lit-html/lib/default-template-processor.js","./lib/template-result.js":"../node_modules/lit-html/lib/template-result.js","./lib/directive.js":"../node_modules/lit-html/lib/directive.js","./lib/dom.js":"../node_modules/lit-html/lib/dom.js","./lib/part.js":"../node_modules/lit-html/lib/part.js","./lib/parts.js":"../node_modules/lit-html/lib/parts.js","./lib/render.js":"../node_modules/lit-html/lib/render.js","./lib/template-factory.js":"../node_modules/lit-html/lib/template-factory.js","./lib/template-instance.js":"../node_modules/lit-html/lib/template-instance.js","./lib/template.js":"../node_modules/lit-html/lib/template.js"}],"../node_modules/lit-html/lib/shady-render.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2062,7 +2105,7 @@ Object.defineProperty(exports, "TemplateResult", {
     return _litHtml.TemplateResult;
   }
 });
-exports.render = void 0;
+exports.render = exports.shadyTemplateFactory = void 0;
 
 var _dom = require("./dom.js");
 
@@ -2096,8 +2139,7 @@ var _litHtml = require("../lit-html.js");
  * Module to add shady DOM/shady CSS polyfill support to lit-html template
  * rendering. See the [[render]] method for details.
  *
- * @module shady-render
- * @preferred
+ * @packageDocumentation
  */
 
 /**
@@ -2159,6 +2201,7 @@ const shadyTemplateFactory = scopeName => result => {
   return template;
 };
 
+exports.shadyTemplateFactory = shadyTemplateFactory;
 const TEMPLATE_TYPES = ['html', 'svg'];
 /**
  * Removes all style elements from Templates for the given scopeName.
@@ -2418,6 +2461,12 @@ exports.UpdatingElement = exports.notEqual = exports.defaultConverter = void 0;
  */
 var _a;
 /**
+ * Use this module if you want to create your own base class extending
+ * [[UpdatingElement]].
+ * @packageDocumentation
+ */
+
+/*
  * When using Closure Compiler, JSCompiler_renameProperty(property, object) is
  * replaced at compile time by the munged name for object[property]. We cannot
  * alias this function, so we have to use a small shim that has the same
@@ -2453,6 +2502,7 @@ const defaultConverter = {
 
       case Object:
       case Array:
+        // Type assert to adhere to Bazel's "must type assert JSON parse" rule.
         return JSON.parse(value);
     }
 
@@ -2480,12 +2530,10 @@ const defaultPropertyDeclaration = {
   reflect: false,
   hasChanged: notEqual
 };
-const microtaskPromise = Promise.resolve(true);
 const STATE_HAS_UPDATED = 1;
 const STATE_UPDATE_REQUESTED = 1 << 2;
 const STATE_IS_REFLECTING_TO_ATTRIBUTE = 1 << 3;
 const STATE_IS_REFLECTING_TO_PROPERTY = 1 << 4;
-const STATE_HAS_CONNECTED = 1 << 5;
 /**
  * The Closure JS Compiler doesn't currently have good support for static
  * property semantics where "this" is dynamic (e.g.
@@ -2498,26 +2546,12 @@ const finalized = 'finalized';
  * Base element class which manages element properties and attributes. When
  * properties change, the `update` method is asynchronously called. This method
  * should be supplied by subclassers to render updates as desired.
+ * @noInheritDoc
  */
 
 class UpdatingElement extends HTMLElement {
   constructor() {
     super();
-    this._updateState = 0;
-    this._instanceProperties = undefined;
-    this._updatePromise = microtaskPromise;
-    this._hasConnectedResolver = undefined;
-    /**
-     * Map with keys for any properties that have changed since the last
-     * update cycle with previous values.
-     */
-
-    this._changedProperties = new Map();
-    /**
-     * Map with keys of properties that should be reflected when updated.
-     */
-
-    this._reflectingProperties = undefined;
     this.initialize();
   }
   /**
@@ -2566,10 +2600,25 @@ class UpdatingElement extends HTMLElement {
     }
   }
   /**
-   * Creates a property accessor on the element prototype if one does not exist.
+   * Creates a property accessor on the element prototype if one does not exist
+   * and stores a PropertyDeclaration for the property with the given options.
    * The property setter calls the property's `hasChanged` property option
    * or uses a strict identity check to determine whether or not to request
    * an update.
+   *
+   * This method may be overridden to customize properties; however,
+   * when doing so, it's important to call `super.createProperty` to ensure
+   * the property is setup correctly. This method calls
+   * `getPropertyDescriptor` internally to get a descriptor to install.
+   * To customize what properties do when they are get or set, override
+   * `getPropertyDescriptor`. To customize the options for a property,
+   * implement `createProperty` like this:
+   *
+   * static createProperty(name, options) {
+   *   options = Object.assign(options, {myOption: true});
+   *   super.createProperty(name, options);
+   * }
+   *
    * @nocollapse
    */
 
@@ -2592,7 +2641,40 @@ class UpdatingElement extends HTMLElement {
     }
 
     const key = typeof name === 'symbol' ? Symbol() : `__${name}`;
-    Object.defineProperty(this.prototype, name, {
+    const descriptor = this.getPropertyDescriptor(name, key, options);
+
+    if (descriptor !== undefined) {
+      Object.defineProperty(this.prototype, name, descriptor);
+    }
+  }
+  /**
+   * Returns a property descriptor to be defined on the given named property.
+   * If no descriptor is returned, the property will not become an accessor.
+   * For example,
+   *
+   *   class MyElement extends LitElement {
+   *     static getPropertyDescriptor(name, key, options) {
+   *       const defaultDescriptor =
+   *           super.getPropertyDescriptor(name, key, options);
+   *       const setter = defaultDescriptor.set;
+   *       return {
+   *         get: defaultDescriptor.get,
+   *         set(value) {
+   *           setter.call(this, value);
+   *           // custom action.
+   *         },
+   *         configurable: true,
+   *         enumerable: true
+   *       }
+   *     }
+   *   }
+   *
+   * @nocollapse
+   */
+
+
+  static getPropertyDescriptor(name, key, options) {
+    return {
       // tslint:disable-next-line:no-any no symbol in index
       get() {
         return this[key];
@@ -2601,13 +2683,29 @@ class UpdatingElement extends HTMLElement {
       set(value) {
         const oldValue = this[name];
         this[key] = value;
-
-        this._requestUpdate(name, oldValue);
+        this.requestUpdateInternal(name, oldValue, options);
       },
 
       configurable: true,
       enumerable: true
-    });
+    };
+  }
+  /**
+   * Returns the property options associated with the given property.
+   * These options are defined with a PropertyDeclaration via the `properties`
+   * object or the `@property` decorator and are registered in
+   * `createProperty(...)`.
+   *
+   * Note, this method should be considered "final" and not overridden. To
+   * customize the options for a given property, override `createProperty`.
+   *
+   * @nocollapse
+   * @final
+   */
+
+
+  static getPropertyOptions(name) {
+    return this._classProperties && this._classProperties.get(name) || defaultPropertyDeclaration;
   }
   /**
    * Creates property accessors for registered properties and ensures
@@ -2709,11 +2807,15 @@ class UpdatingElement extends HTMLElement {
 
 
   initialize() {
+    this._updateState = 0;
+    this._updatePromise = new Promise(res => this._enableUpdatingResolver = res);
+    this._changedProperties = new Map();
+
     this._saveInstanceProperties(); // ensures first update will be caught by an early access of
     // `updateComplete`
 
 
-    this._requestUpdate();
+    this.requestUpdateInternal();
   }
   /**
    * Fixes any properties set on the instance before upgrade time.
@@ -2760,15 +2862,16 @@ class UpdatingElement extends HTMLElement {
   }
 
   connectedCallback() {
-    this._updateState = this._updateState | STATE_HAS_CONNECTED; // Ensure first connection completes an update. Updates cannot complete
-    // before connection and if one is pending connection the
-    // `_hasConnectionResolver` will exist. If so, resolve it to complete the
-    // update, otherwise requestUpdate.
+    // Ensure first connection completes an update. Updates cannot complete
+    // before connection.
+    this.enableUpdating();
+  }
 
-    if (this._hasConnectedResolver) {
-      this._hasConnectedResolver();
+  enableUpdating() {
+    if (this._enableUpdatingResolver !== undefined) {
+      this._enableUpdatingResolver();
 
-      this._hasConnectedResolver = undefined;
+      this._enableUpdatingResolver = undefined;
     }
   }
   /**
@@ -2831,12 +2934,14 @@ class UpdatingElement extends HTMLElement {
       return;
     }
 
-    const ctor = this.constructor;
+    const ctor = this.constructor; // Note, hint this as an `AttributeMap` so closure clearly understands
+    // the type; it has issues with tracking types through statics
+    // tslint:disable-next-line:no-unnecessary-type-assertion
 
     const propName = ctor._attributeToPropertyMap.get(name);
 
     if (propName !== undefined) {
-      const options = ctor._classProperties.get(propName) || defaultPropertyDeclaration; // mark state reflecting
+      const options = ctor.getPropertyOptions(propName); // mark state reflecting
 
       this._updateState = this._updateState | STATE_IS_REFLECTING_TO_PROPERTY;
       this[propName] = // tslint:disable-next-line:no-any
@@ -2846,18 +2951,18 @@ class UpdatingElement extends HTMLElement {
     }
   }
   /**
-   * This private version of `requestUpdate` does not access or return the
+   * This protected version of `requestUpdate` does not access or return the
    * `updateComplete` promise. This promise can be overridden and is therefore
    * not free to access.
    */
 
 
-  _requestUpdate(name, oldValue) {
+  requestUpdateInternal(name, oldValue, options) {
     let shouldRequestUpdate = true; // If we have a property key, perform property update steps.
 
     if (name !== undefined) {
       const ctor = this.constructor;
-      const options = ctor._classProperties.get(name) || defaultPropertyDeclaration;
+      options = options || ctor.getPropertyOptions(name);
 
       if (ctor._valueHasChanged(this[name], oldValue, options.hasChanged)) {
         if (!this._changedProperties.has(name)) {
@@ -2882,7 +2987,7 @@ class UpdatingElement extends HTMLElement {
     }
 
     if (!this._hasRequestedUpdate && shouldRequestUpdate) {
-      this._enqueueUpdate();
+      this._updatePromise = this._enqueueUpdate();
     }
   }
   /**
@@ -2901,8 +3006,7 @@ class UpdatingElement extends HTMLElement {
 
 
   requestUpdate(name, oldValue) {
-    this._requestUpdate(name, oldValue);
-
+    this.requestUpdateInternal(name, oldValue);
     return this.updateComplete;
   }
   /**
@@ -2911,46 +3015,25 @@ class UpdatingElement extends HTMLElement {
 
 
   async _enqueueUpdate() {
-    // Mark state updating...
     this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
-    let resolve;
-    let reject;
-    const previousUpdatePromise = this._updatePromise;
-    this._updatePromise = new Promise((res, rej) => {
-      resolve = res;
-      reject = rej;
-    });
 
     try {
       // Ensure any previous update has resolved before updating.
       // This `await` also ensures that property changes are batched.
-      await previousUpdatePromise;
-    } catch (e) {} // Ignore any previous errors. We only care that the previous cycle is
-    // done. Any error should have been handled in the previous update.
-    // Make sure the element has connected before updating.
-
-
-    if (!this._hasConnected) {
-      await new Promise(res => this._hasConnectedResolver = res);
+      await this._updatePromise;
+    } catch (e) {// Ignore any previous errors. We only care that the previous cycle is
+      // done. Any error should have been handled in the previous update.
     }
 
-    try {
-      const result = this.performUpdate(); // If `performUpdate` returns a Promise, we await it. This is done to
-      // enable coordinating updates with a scheduler. Note, the result is
-      // checked to avoid delaying an additional microtask unless we need to.
+    const result = this.performUpdate(); // If `performUpdate` returns a Promise, we await it. This is done to
+    // enable coordinating updates with a scheduler. Note, the result is
+    // checked to avoid delaying an additional microtask unless we need to.
 
-      if (result != null) {
-        await result;
-      }
-    } catch (e) {
-      reject(e);
+    if (result != null) {
+      await result;
     }
 
-    resolve(!this._hasRequestedUpdate);
-  }
-
-  get _hasConnected() {
-    return this._updateState & STATE_HAS_CONNECTED;
+    return !this._hasRequestedUpdate;
   }
 
   get _hasRequestedUpdate() {
@@ -2979,7 +3062,14 @@ class UpdatingElement extends HTMLElement {
 
 
   performUpdate() {
-    // Mixin instance properties once, if they exist.
+    // Abort any update if one is not pending when this is called.
+    // This can happen if `performUpdate` is called early to "flush"
+    // the update.
+    if (!this._hasRequestedUpdate) {
+      return;
+    } // Mixin instance properties once, if they exist.
+
+
     if (this._instanceProperties) {
       this._applyInstanceProperties();
     }
@@ -2992,15 +3082,17 @@ class UpdatingElement extends HTMLElement {
 
       if (shouldUpdate) {
         this.update(changedProperties);
+      } else {
+        this._markUpdated();
       }
     } catch (e) {
       // Prevent `firstUpdated` and `updated` from running when there's an
       // update exception.
-      shouldUpdate = false;
-      throw e;
-    } finally {
-      // Ensure element can accept additional updates after an exception.
+      shouldUpdate = false; // Ensure element can accept additional updates after an exception.
+
       this._markUpdated();
+
+      throw e;
     }
 
     if (shouldUpdate) {
@@ -3052,10 +3144,33 @@ class UpdatingElement extends HTMLElement {
    *       await this._myChild.updateComplete;
    *     }
    *   }
+   * @deprecated Override `getUpdateComplete()` instead for forward
+   *     compatibility with `lit-element` 3.0 / `@lit/reactive-element`.
    */
 
 
   _getUpdateComplete() {
+    return this.getUpdateComplete();
+  }
+  /**
+   * Override point for the `updateComplete` promise.
+   *
+   * It is not safe to override the `updateComplete` getter directly due to a
+   * limitation in TypeScript which means it is not possible to call a
+   * superclass getter (e.g. `super.updateComplete.then(...)`) when the target
+   * language is ES5 (https://github.com/microsoft/TypeScript/issues/338).
+   * This method should be overridden instead. For example:
+   *
+   *   class MyElement extends LitElement {
+   *     async getUpdateComplete() {
+   *       await super.getUpdateComplete();
+   *       await this._myChild.updateComplete;
+   *     }
+   *   }
+   */
+
+
+  getUpdateComplete() {
     return this._updatePromise;
   }
   /**
@@ -3063,7 +3178,7 @@ class UpdatingElement extends HTMLElement {
    * an update. By default, this method always returns `true`, but this can be
    * customized to control when to update.
    *
-   * * @param _changedProperties Map of changed properties with old values
+   * @param _changedProperties Map of changed properties with old values
    */
 
 
@@ -3076,7 +3191,7 @@ class UpdatingElement extends HTMLElement {
    * Setting properties inside this method will *not* trigger
    * another update.
    *
-   * * @param _changedProperties Map of changed properties with old values
+   * @param _changedProperties Map of changed properties with old values
    */
 
 
@@ -3088,6 +3203,8 @@ class UpdatingElement extends HTMLElement {
 
       this._reflectingProperties = undefined;
     }
+
+    this._markUpdated();
   }
   /**
    * Invoked whenever the element is updated. Implement to perform
@@ -3096,7 +3213,7 @@ class UpdatingElement extends HTMLElement {
    * Setting properties inside this method will trigger the element to update
    * again after this update cycle completes.
    *
-   * * @param _changedProperties Map of changed properties with old values
+   * @param _changedProperties Map of changed properties with old values
    */
 
 
@@ -3108,7 +3225,7 @@ class UpdatingElement extends HTMLElement {
    * Setting properties inside this method will trigger the element to update
    * again after this update cycle completes.
    *
-   * * @param _changedProperties Map of changed properties with old values
+   * @param _changedProperties Map of changed properties with old values
    */
 
 
@@ -3130,9 +3247,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.property = property;
+exports.internalProperty = internalProperty;
 exports.query = query;
+exports.queryAsync = queryAsync;
 exports.queryAll = queryAll;
-exports.eventOptions = exports.customElement = void 0;
+exports.eventOptions = eventOptions;
+exports.queryAssignedNodes = queryAssignedNodes;
+exports.state = exports.customElement = void 0;
 
 /**
  * @license
@@ -3177,7 +3298,16 @@ const standardCustomElement = (tagName, descriptor) => {
 /**
  * Class decorator factory that defines the decorated class as a custom element.
  *
- * @param tagName the name of the custom element to define
+ * ```
+ * @customElement('my-element')
+ * class MyElement {
+ *   render() {
+ *     return html``;
+ *   }
+ * }
+ * ```
+ * @category Decorator
+ * @param tagName The name of the custom element to define.
  */
 
 
@@ -3190,7 +3320,7 @@ const standardProperty = (options, element) => {
   // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
   // stomp over the user's accessor.
   if (element.kind === 'method' && element.descriptor && !('value' in element.descriptor)) {
-    return Object.assign({}, element, {
+    return Object.assign(Object.assign({}, element), {
       finisher(clazz) {
         clazz.createProperty(element.key, options);
       }
@@ -3234,9 +3364,20 @@ const legacyProperty = (options, proto, name) => {
 };
 /**
  * A property decorator which creates a LitElement property which reflects a
- * corresponding attribute value. A `PropertyDeclaration` may optionally be
+ * corresponding attribute value. A [[`PropertyDeclaration`]] may optionally be
  * supplied to configure property features.
  *
+ * This decorator should only be used for public fields. Private or protected
+ * fields should use the [[`internalProperty`]] decorator.
+ *
+ * @example
+ * ```ts
+ * class MyElement {
+ *   @property({ type: Boolean })
+ *   clicked = false;
+ * }
+ * ```
+ * @category Decorator
  * @ExportDecoratedItems
  */
 
@@ -3246,18 +3387,141 @@ function property(options) {
   return (protoOrDescriptor, name) => name !== undefined ? legacyProperty(options, protoOrDescriptor, name) : standardProperty(options, protoOrDescriptor);
 }
 /**
- * A property decorator that converts a class property into a getter that
- * executes a querySelector on the element's renderRoot.
+ * Declares a private or protected property that still triggers updates to the
+ * element when it changes.
  *
- * @ExportDecoratedItems
+ * Properties declared this way must not be used from HTML or HTML templating
+ * systems, they're solely for properties internal to the element. These
+ * properties may be renamed by optimization tools like the Closure Compiler.
+ * @category Decorator
+ * @deprecated `internalProperty` has been renamed to `state` in lit-element
+ *     3.0. Please update to `state` now to be compatible with 3.0.
  */
 
 
-function query(selector) {
+function internalProperty(options) {
+  return property({
+    attribute: false,
+    hasChanged: options === null || options === void 0 ? void 0 : options.hasChanged
+  });
+}
+/**
+ * Declares a private or protected property that still triggers updates to the
+ * element when it changes.
+ *
+ * Properties declared this way must not be used from HTML or HTML templating
+ * systems, they're solely for properties internal to the element. These
+ * properties may be renamed by optimization tools like the Closure Compiler.
+ * @category Decorator
+ */
+
+
+const state = options => internalProperty(options);
+/**
+ * A property decorator that converts a class property into a getter that
+ * executes a querySelector on the element's renderRoot.
+ *
+ * @param selector A DOMString containing one or more selectors to match.
+ * @param cache An optional boolean which when true performs the DOM query only
+ * once and caches the result.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ *
+ * @example
+ *
+ * ```ts
+ * class MyElement {
+ *   @query('#first')
+ *   first;
+ *
+ *   render() {
+ *     return html`
+ *       <div id="first"></div>
+ *       <div id="second"></div>
+ *     `;
+ *   }
+ * }
+ * ```
+ * @category Decorator
+ */
+
+
+exports.state = state;
+
+function query(selector, cache) {
   return (protoOrDescriptor, // tslint:disable-next-line:no-any decorator
   name) => {
     const descriptor = {
       get() {
+        return this.renderRoot.querySelector(selector);
+      },
+
+      enumerable: true,
+      configurable: true
+    };
+
+    if (cache) {
+      const prop = name !== undefined ? name : protoOrDescriptor.key;
+      const key = typeof prop === 'symbol' ? Symbol() : `__${prop}`;
+
+      descriptor.get = function () {
+        if (this[key] === undefined) {
+          this[key] = this.renderRoot.querySelector(selector);
+        }
+
+        return this[key];
+      };
+    }
+
+    return name !== undefined ? legacyQuery(descriptor, protoOrDescriptor, name) : standardQuery(descriptor, protoOrDescriptor);
+  };
+} // Note, in the future, we may extend this decorator to support the use case
+// where the queried element may need to do work to become ready to interact
+// with (e.g. load some implementation code). If so, we might elect to
+// add a second argument defining a function that can be run to make the
+// queried element loaded/updated/ready.
+
+/**
+ * A property decorator that converts a class property into a getter that
+ * returns a promise that resolves to the result of a querySelector on the
+ * element's renderRoot done after the element's `updateComplete` promise
+ * resolves. When the queried property may change with element state, this
+ * decorator can be used instead of requiring users to await the
+ * `updateComplete` before accessing the property.
+ *
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ *
+ * @example
+ * ```ts
+ * class MyElement {
+ *   @queryAsync('#first')
+ *   first;
+ *
+ *   render() {
+ *     return html`
+ *       <div id="first"></div>
+ *       <div id="second"></div>
+ *     `;
+ *   }
+ * }
+ *
+ * // external usage
+ * async doSomethingWithFirst() {
+ *  (await aMyElement.first).doSomething();
+ * }
+ * ```
+ * @category Decorator
+ */
+
+
+function queryAsync(selector) {
+  return (protoOrDescriptor, // tslint:disable-next-line:no-any decorator
+  name) => {
+    const descriptor = {
+      async get() {
+        await this.updateComplete;
         return this.renderRoot.querySelector(selector);
       },
 
@@ -3271,7 +3535,26 @@ function query(selector) {
  * A property decorator that converts a class property into a getter
  * that executes a querySelectorAll on the element's renderRoot.
  *
- * @ExportDecoratedItems
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+ *
+ * @example
+ * ```ts
+ * class MyElement {
+ *   @queryAll('div')
+ *   divs;
+ *
+ *   render() {
+ *     return html`
+ *       <div id="first"></div>
+ *       <div id="second"></div>
+ *     `;
+ *   }
+ * }
+ * ```
+ * @category Decorator
  */
 
 
@@ -3302,7 +3585,7 @@ const standardQuery = (descriptor, element) => ({
 });
 
 const standardEventOptions = (options, element) => {
-  return Object.assign({}, element, {
+  return Object.assign(Object.assign({}, element), {
     finisher(clazz) {
       Object.assign(clazz.prototype[element.key], options);
     }
@@ -3318,38 +3601,101 @@ const legacyEventOptions = // tslint:disable-next-line:no-any legacy decorator
  * Adds event listener options to a method used as an event listener in a
  * lit-html template.
  *
- * @param options An object that specifis event listener options as accepted by
+ * @param options An object that specifies event listener options as accepted by
  * `EventTarget#addEventListener` and `EventTarget#removeEventListener`.
  *
  * Current browsers support the `capture`, `passive`, and `once` options. See:
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Parameters
  *
  * @example
+ * ```ts
+ * class MyElement {
+ *   clicked = false;
  *
- *     class MyElement {
+ *   render() {
+ *     return html`
+ *       <div @click=${this._onClick}`>
+ *         <button></button>
+ *       </div>
+ *     `;
+ *   }
  *
- *       clicked = false;
- *
- *       render() {
- *         return html`<div @click=${this._onClick}`><button></button></div>`;
- *       }
- *
- *       @eventOptions({capture: true})
- *       _onClick(e) {
- *         this.clicked = true;
- *       }
- *     }
+ *   @eventOptions({capture: true})
+ *   _onClick(e) {
+ *     this.clicked = true;
+ *   }
+ * }
+ * ```
+ * @category Decorator
  */
 
 
-const eventOptions = options => // Return value typed as any to prevent TypeScript from complaining that
-// standard decorator function signature does not match TypeScript decorator
-// signature
-// TODO(kschaaf): unclear why it was only failing on this decorator and not
-// the others
-(protoOrDescriptor, name) => name !== undefined ? legacyEventOptions(options, protoOrDescriptor, name) : standardEventOptions(options, protoOrDescriptor);
+function eventOptions(options) {
+  // Return value typed as any to prevent TypeScript from complaining that
+  // standard decorator function signature does not match TypeScript decorator
+  // signature
+  // TODO(kschaaf): unclear why it was only failing on this decorator and not
+  // the others
+  return (protoOrDescriptor, name) => name !== undefined ? legacyEventOptions(options, protoOrDescriptor, name) : standardEventOptions(options, protoOrDescriptor);
+} // x-browser support for matches
+// tslint:disable-next-line:no-any
 
-exports.eventOptions = eventOptions;
+
+const ElementProto = Element.prototype;
+const legacyMatches = ElementProto.msMatchesSelector || ElementProto.webkitMatchesSelector;
+/**
+ * A property decorator that converts a class property into a getter that
+ * returns the `assignedNodes` of the given named `slot`. Note, the type of
+ * this property should be annotated as `NodeListOf<HTMLElement>`.
+ *
+ * @param slotName A string name of the slot.
+ * @param flatten A boolean which when true flattens the assigned nodes,
+ * meaning any assigned nodes that are slot elements are replaced with their
+ * assigned nodes.
+ * @param selector A string which filters the results to elements that match
+ * the given css selector.
+ *
+ * * @example
+ * ```ts
+ * class MyElement {
+ *   @queryAssignedNodes('list', true, '.item')
+ *   listItems;
+ *
+ *   render() {
+ *     return html`
+ *       <slot name="list"></slot>
+ *     `;
+ *   }
+ * }
+ * ```
+ * @category Decorator
+ */
+
+function queryAssignedNodes(slotName = '', flatten = false, selector = '') {
+  return (protoOrDescriptor, // tslint:disable-next-line:no-any decorator
+  name) => {
+    const descriptor = {
+      get() {
+        const slotSelector = `slot${slotName ? `[name=${slotName}]` : ':not([name])'}`;
+        const slot = this.renderRoot.querySelector(slotSelector);
+        let nodes = slot && slot.assignedNodes({
+          flatten
+        });
+
+        if (nodes && selector) {
+          nodes = nodes.filter(node => node.nodeType === Node.ELEMENT_NODE && ( // tslint:disable-next-line:no-any testing existence on older browsers
+          node.matches ? node.matches(selector) : legacyMatches.call(node, selector)));
+        }
+
+        return nodes;
+      },
+
+      enumerable: true,
+      configurable: true
+    };
+    return name !== undefined ? legacyQuery(descriptor, protoOrDescriptor, name) : standardQuery(descriptor, protoOrDescriptor);
+  };
+}
 },{}],"../node_modules/lit-element/lib/css-tag.js":[function(require,module,exports) {
 "use strict";
 
@@ -3368,7 +3714,11 @@ found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
 part of the polymer project is also subject to an additional IP rights grant
 found at http://polymer.github.io/PATENTS.txt
 */
-const supportsAdoptingStyleSheets = 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
+
+/**
+ * Whether the current browser supports `adoptedStyleSheets`.
+ */
+const supportsAdoptingStyleSheets = window.ShadowRoot && (window.ShadyCSS === undefined || window.ShadyCSS.nativeShadow) && 'adoptedStyleSheets' in Document.prototype && 'replace' in CSSStyleSheet.prototype;
 exports.supportsAdoptingStyleSheets = supportsAdoptingStyleSheets;
 const constructionToken = Symbol();
 
@@ -3385,8 +3735,8 @@ class CSSResult {
 
   get styleSheet() {
     if (this._styleSheet === undefined) {
-      // Note, if `adoptedStyleSheets` is supported then we assume CSSStyleSheet
-      // is constructable.
+      // Note, if `supportsAdoptingStyleSheets` is true then we assume
+      // CSSStyleSheet is constructable.
       if (supportsAdoptingStyleSheets) {
         this._styleSheet = new CSSStyleSheet();
 
@@ -3405,7 +3755,7 @@ class CSSResult {
 
 }
 /**
- * Wrap a value for interpolation in a css tagged template literal.
+ * Wrap a value for interpolation in a [[`css`]] tagged template literal.
  *
  * This is unsafe because untrusted CSS text can be used to phone home
  * or exfiltrate data to an attacker controlled site. Take care to only use
@@ -3432,10 +3782,10 @@ const textFromCSSResult = value => {
   }
 };
 /**
- * Template tag which which can be used with LitElement's `style` property to
- * set element styles. For security reasons, only literal string values may be
- * used. To incorporate non-literal values `unsafeCSS` may be used inside a
- * template string part.
+ * Template tag which which can be used with LitElement's [[LitElement.styles |
+ * `styles`]] property to set element styles. For security reasons, only literal
+ * string values may be used. To incorporate non-literal values [[`unsafeCSS`]]
+ * may be used inside a template string part.
  */
 
 
@@ -3453,38 +3803,43 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
   LitElement: true,
+  ReactiveElement: true,
   html: true,
   svg: true,
   TemplateResult: true,
   SVGTemplateResult: true
 };
+Object.defineProperty(exports, "ReactiveElement", {
+  enumerable: true,
+  get: function () {
+    return _updatingElement.UpdatingElement;
+  }
+});
 Object.defineProperty(exports, "html", {
   enumerable: true,
   get: function () {
-    return _litHtml2.html;
+    return _litHtml.html;
   }
 });
 Object.defineProperty(exports, "svg", {
   enumerable: true,
   get: function () {
-    return _litHtml2.svg;
+    return _litHtml.svg;
   }
 });
 Object.defineProperty(exports, "TemplateResult", {
   enumerable: true,
   get: function () {
-    return _litHtml2.TemplateResult;
+    return _litHtml.TemplateResult;
   }
 });
 Object.defineProperty(exports, "SVGTemplateResult", {
   enumerable: true,
   get: function () {
-    return _litHtml2.SVGTemplateResult;
+    return _litHtml.SVGTemplateResult;
   }
 });
 exports.LitElement = void 0;
-
-var _litHtml = require("lit-html");
 
 var _shadyRender = require("lit-html/lib/shady-render.js");
 
@@ -3493,6 +3848,7 @@ var _updatingElement = require("./lib/updating-element.js");
 Object.keys(_updatingElement).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _updatingElement[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -3506,6 +3862,7 @@ var _decorators = require("./lib/decorators.js");
 Object.keys(_decorators).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _decorators[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -3514,13 +3871,14 @@ Object.keys(_decorators).forEach(function (key) {
   });
 });
 
-var _litHtml2 = require("lit-html/lit-html.js");
+var _litHtml = require("lit-html/lit-html.js");
 
 var _cssTag = require("./lib/css-tag.js");
 
 Object.keys(_cssTag).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _cssTag[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -3542,86 +3900,146 @@ Object.keys(_cssTag).forEach(function (key) {
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
+
+/**
+ * The main LitElement module, which defines the [[`LitElement`]] base class and
+ * related APIs.
+ *
+ *  LitElement components can define a template and a set of observed
+ * properties. Changing an observed property triggers a re-render of the
+ * element.
+ *
+ *  Import [[`LitElement`]] and [[`html`]] from this module to create a
+ * component:
+ *
+ *  ```js
+ * import {LitElement, html} from 'lit-element';
+ *
+ * class MyElement extends LitElement {
+ *
+ *   // Declare observed properties
+ *   static get properties() {
+ *     return {
+ *       adjective: {}
+ *     }
+ *   }
+ *
+ *   constructor() {
+ *     this.adjective = 'awesome';
+ *   }
+ *
+ *   // Define the element's template
+ *   render() {
+ *     return html`<p>your ${adjective} template here</p>`;
+ *   }
+ * }
+ *
+ * customElements.define('my-element', MyElement);
+ * ```
+ *
+ * `LitElement` extends [[`UpdatingElement`]] and adds lit-html templating.
+ * The `UpdatingElement` class is provided for users that want to build
+ * their own custom element base classes that don't use lit-html.
+ *
+ * @packageDocumentation
+ */
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for LitElement usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.2.1');
+(window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.5.1');
 /**
- * Minimal implementation of Array.prototype.flat
- * @param arr the array to flatten
- * @param result the accumlated result
+ * Sentinal value used to avoid calling lit-html's render function when
+ * subclasses do not implement `render`
  */
 
-function arrayFlat(styles, result = []) {
-  for (let i = 0, length = styles.length; i < length; i++) {
-    const value = styles[i];
-
-    if (Array.isArray(value)) {
-      arrayFlat(value, result);
-    } else {
-      result.push(value);
-    }
-  }
-
-  return result;
-}
-/** Deeply flattens styles array. Uses native flat if available. */
-
-
-const flattenStyles = styles => styles.flat ? styles.flat(Infinity) : arrayFlat(styles);
+const renderNotImplemented = {};
+/**
+ * Base element class that manages element properties and attributes, and
+ * renders a lit-html template.
+ *
+ * To define a component, subclass `LitElement` and implement a
+ * `render` method to provide the component's template. Define properties
+ * using the [[`properties`]] property or the [[`property`]] decorator.
+ */
 
 class LitElement extends _updatingElement.UpdatingElement {
-  /** @nocollapse */
-  static finalize() {
-    // The Closure JS Compiler does not always preserve the correct "this"
-    // when calling static super methods (b/137460243), so explicitly bind.
-    super.finalize.call(this); // Prepare styling that is stamped at first render time. Styling
-    // is built from user provided `styles` or is inherited from the superclass.
-
-    this._styles = this.hasOwnProperty(JSCompiler_renameProperty('styles', this)) ? this._getUniqueStyles() : this._styles || [];
+  /**
+   * Return the array of styles to apply to the element.
+   * Override this method to integrate into a style management system.
+   *
+   * @nocollapse
+   */
+  static getStyles() {
+    return this.styles;
   }
   /** @nocollapse */
 
 
   static _getUniqueStyles() {
-    // Take care not to call `this.styles` multiple times since this generates
-    // new CSSResults each time.
+    // Only gather styles once per class
+    if (this.hasOwnProperty(JSCompiler_renameProperty('_styles', this))) {
+      return;
+    } // Take care not to call `this.getStyles()` multiple times since this
+    // generates new CSSResults each time.
     // TODO(sorvell): Since we do not cache CSSResults by input, any
     // shared styles will generate new stylesheet objects, which is wasteful.
     // This should be addressed when a browser ships constructable
     // stylesheets.
-    const userStyles = this.styles;
-    const styles = [];
+
+
+    const userStyles = this.getStyles();
 
     if (Array.isArray(userStyles)) {
-      const flatStyles = flattenStyles(userStyles); // As a performance optimization to avoid duplicated styling that can
-      // occur especially when composing via subclassing, de-duplicate styles
-      // preserving the last item in the list. The last item is kept to
-      // try to preserve cascade order with the assumption that it's most
-      // important that last added styles override previous styles.
+      // De-duplicate styles preserving the _last_ instance in the set.
+      // This is a performance optimization to avoid duplicated styles that can
+      // occur especially when composing via subclassing.
+      // The last item is kept to try to preserve the cascade order with the
+      // assumption that it's most important that last added styles override
+      // previous styles.
+      const addStyles = (styles, set) => styles.reduceRight((set, s) => // Note: On IE set.add() does not return the set
+      Array.isArray(s) ? addStyles(s, set) : (set.add(s), set), set); // Array.from does not work on Set in IE, otherwise return
+      // Array.from(addStyles(userStyles, new Set<CSSResult>())).reverse()
 
-      const styleSet = flatStyles.reduceRight((set, s) => {
-        set.add(s); // on IE set.add does not return the set.
 
-        return set;
-      }, new Set()); // Array.from does not work on Set in IE
+      const set = addStyles(userStyles, new Set());
+      const styles = [];
+      set.forEach(v => styles.unshift(v));
+      this._styles = styles;
+    } else {
+      this._styles = userStyles === undefined ? [] : [userStyles];
+    } // Ensure that there are no invalid CSSStyleSheet instances here. They are
+    // invalid in two conditions.
+    // (1) the sheet is non-constructible (`sheet` of a HTMLStyleElement), but
+    //     this is impossible to check except via .replaceSync or use
+    // (2) the ShadyCSS polyfill is enabled (:. supportsAdoptingStyleSheets is
+    //     false)
 
-      styleSet.forEach(v => styles.unshift(v));
-    } else if (userStyles) {
-      styles.push(userStyles);
-    }
 
-    return styles;
+    this._styles = this._styles.map(s => {
+      if (s instanceof CSSStyleSheet && !_cssTag.supportsAdoptingStyleSheets) {
+        // Flatten the cssText from the passed constructible stylesheet (or
+        // undetectable non-constructible stylesheet). The user might have
+        // expected to update their stylesheets over time, but the alternative
+        // is a crash.
+        const cssText = Array.prototype.slice.call(s.cssRules).reduce((css, rule) => css + rule.cssText, '');
+        return (0, _cssTag.unsafeCSS)(cssText);
+      }
+
+      return s;
+    });
   }
   /**
-   * Performs element initialization. By default this calls `createRenderRoot`
-   * to create the element `renderRoot` node and captures any pre-set values for
-   * registered properties.
+   * Performs element initialization. By default this calls
+   * [[`createRenderRoot`]] to create the element [[`renderRoot`]] node and
+   * captures any pre-set values for registered properties.
    */
 
 
   initialize() {
     super.initialize();
+
+    this.constructor._getUniqueStyles();
+
     this.renderRoot = this.createRenderRoot(); // Note, if renderRoot is not a shadowRoot, styles would/could apply to the
     // element's getRootNode(). While this could be done, we're choosing not to
     // support this now since it would require different logic around de-duping.
@@ -3640,12 +4058,10 @@ class LitElement extends _updatingElement.UpdatingElement {
 
 
   createRenderRoot() {
-    return this.attachShadow({
-      mode: 'open'
-    });
+    return this.attachShadow(this.constructor.shadowRootOptions);
   }
   /**
-   * Applies styling to the element shadowRoot using the `static get styles`
+   * Applies styling to the element shadowRoot using the [[`styles`]]
    * property. Styling will apply using `shadowRoot.adoptedStyleSheets` where
    * available and will fallback otherwise. When Shadow DOM is polyfilled,
    * ShadyCSS scopes styles and adds them to the document. When Shadow DOM
@@ -3662,7 +4078,7 @@ class LitElement extends _updatingElement.UpdatingElement {
       return;
     } // There are three separate cases here based on Shadow DOM support.
     // (1) shadowRoot polyfilled: use ShadyCSS
-    // (2) shadowRoot.adoptedStyleSheets available: use it.
+    // (2) shadowRoot.adoptedStyleSheets available: use it
     // (3) shadowRoot.adoptedStyleSheets polyfilled: append styles after
     // rendering
 
@@ -3670,7 +4086,7 @@ class LitElement extends _updatingElement.UpdatingElement {
     if (window.ShadyCSS !== undefined && !window.ShadyCSS.nativeShadow) {
       window.ShadyCSS.ScopingShim.prepareAdoptedCssText(styles.map(s => s.cssText), this.localName);
     } else if (_cssTag.supportsAdoptingStyleSheets) {
-      this.renderRoot.adoptedStyleSheets = styles.map(s => s.styleSheet);
+      this.renderRoot.adoptedStyleSheets = styles.map(s => s instanceof CSSStyleSheet ? s : s.styleSheet);
     } else {
       // This must be done after rendering so the actual style insertion is done
       // in `update`.
@@ -3690,15 +4106,18 @@ class LitElement extends _updatingElement.UpdatingElement {
    * Updates the element. This method reflects property values to attributes
    * and calls `render` to render DOM via lit-html. Setting properties inside
    * this method will *not* trigger another update.
-   * * @param _changedProperties Map of changed properties with old values
+   * @param _changedProperties Map of changed properties with old values
    */
 
 
   update(changedProperties) {
-    super.update(changedProperties);
+    // Setting properties in `render` should not trigger an update. Since
+    // updates are allowed after super.update, it's important to call `render`
+    // before that.
     const templateResult = this.render();
+    super.update(changedProperties); // If render is not implemented by the component, don't call lit-html render
 
-    if (templateResult instanceof _litHtml.TemplateResult) {
+    if (templateResult !== renderNotImplemented) {
       this.constructor.render(templateResult, this.renderRoot, {
         scopeName: this.localName,
         eventContext: this
@@ -3719,13 +4138,16 @@ class LitElement extends _updatingElement.UpdatingElement {
     }
   }
   /**
-   * Invoked on each update to perform rendering tasks. This method must return
-   * a lit-html TemplateResult. Setting properties inside this method will *not*
-   * trigger the element to update.
+   * Invoked on each update to perform rendering tasks. This method may return
+   * any value renderable by lit-html's `NodePart` - typically a
+   * `TemplateResult`. Setting properties inside this method will *not* trigger
+   * the element to update.
    */
 
 
-  render() {}
+  render() {
+    return renderNotImplemented;
+  }
 
 }
 /**
@@ -3740,41 +4162,33 @@ class LitElement extends _updatingElement.UpdatingElement {
 exports.LitElement = LitElement;
 LitElement['finalized'] = true;
 /**
- * Render method used to render the lit-html TemplateResult to the element's
- * DOM.
- * @param {TemplateResult} Template to render.
- * @param {Element|DocumentFragment} Node into which to render.
- * @param {String} Element name.
+ * Reference to the underlying library method used to render the element's
+ * DOM. By default, points to the `render` method from lit-html's shady-render
+ * module.
+ *
+ * **Most users will never need to touch this property.**
+ *
+ * This  property should not be confused with the `render` instance method,
+ * which should be overridden to define a template for the element.
+ *
+ * Advanced users creating a new base class based on LitElement can override
+ * this property to point to a custom render method with a signature that
+ * matches [shady-render's `render`
+ * method](https://lit-html.polymer-project.org/api/modules/shady_render.html#render).
+ *
  * @nocollapse
  */
 
 LitElement.render = _shadyRender.render;
-},{"lit-html":"../node_modules/lit-html/lit-html.js","lit-html/lib/shady-render.js":"../node_modules/lit-html/lib/shady-render.js","./lib/updating-element.js":"../node_modules/lit-element/lib/updating-element.js","./lib/decorators.js":"../node_modules/lit-element/lib/decorators.js","lit-html/lit-html.js":"../node_modules/lit-html/lit-html.js","./lib/css-tag.js":"../node_modules/lit-element/lib/css-tag.js"}],"components/nav-bar.js":[function(require,module,exports) {
+/** @nocollapse */
+
+LitElement.shadowRootOptions = {
+  mode: 'open'
+};
+},{"lit-html/lib/shady-render.js":"../node_modules/lit-html/lib/shady-render.js","./lib/updating-element.js":"../node_modules/lit-element/lib/updating-element.js","./lib/decorators.js":"../node_modules/lit-element/lib/decorators.js","lit-html/lit-html.js":"../node_modules/lit-html/lit-html.js","./lib/css-tag.js":"../node_modules/lit-element/lib/css-tag.js"}],"components/nav-bar.js":[function(require,module,exports) {
 "use strict";
 
 var _litElement = require("lit-element");
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t#navbar {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr;\n\t\t\t}\n\t\t\t#logo {\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t#logoText {\n\t\t\t\tpadding: 1rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t}\n\t\t\t#logoGroup {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 4rem 1fr;\n\t\t\t\talign-items: center;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\n\t\t\t#info {\n\t\t\t\tborder-radius: 50%;\n\t\t\t\twidth: 3rem;\n\t\t\t\theight: 3rem;\n\t\t\t\tfont-size: 1.5rem;\n\t\t\t\tcolor: #FFFFFF;\n\t\t\t\tjustify-self: end;\n\t\t\t\talign-self: center;\n\t\t\t\tborder: 2px #FFFFFF solid;\n\t\t\t\tbox-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;\n\t\t\t\tbackground: linear-gradient(0deg, rgba(0,118,255,1) 0%, rgba(0,174,255,1) 100%);\n\t\t\t}\n\t\t\tbutton:focus {\n\t\t\t\toutline-style: none;\n\n\t\t\t}\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div id='navbar'>\n\t\t\t\t<div id=\"logoGroup\">\n\t\t\t\t\t<img id=\"logo\" src=\"", "\"/>\n\t\t\t\t\t<h1 id=\"logoText\">Yield</h1>\n\t\t\t\t</div>\n\t\t\t\t<button id=\"info\">?</button>\t\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 class NavBar extends _litElement.LitElement {
   constructor() {
@@ -3791,11 +4205,60 @@ class NavBar extends _litElement.LitElement {
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.logo);
+    return (0, _litElement.html)`
+			<div id='navbar'>
+				<div id="logoGroup">
+					<img id="logo" src="${this.logo}"/>
+					<h1 id="logoText">Yield</h1>
+				</div>
+				<button @click="${this.handleClick}" id="info"><span>?</span></button>	
+			</div>
+		`;
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject2());
+    return (0, _litElement.css)`
+			#navbar {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+			}
+			#logo {
+				width: 100%;
+			}
+			#logoText {
+				padding: 1rem;
+				font-size: 1.5rem;
+			}
+			#logoGroup {
+				display: grid;
+				grid-template-columns: 4rem 1fr;
+				align-items: center;
+				margin-bottom: 1rem;
+			}
+
+			#info {
+				border-radius: 50%;
+				width: 50px;
+				height: 50px;
+				font-size: 1rem;
+				color: #FFFFFF;
+				justify-self: end;
+				align-self: center;
+				display: block;
+				border: 2px #FFFFFF solid;
+				box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
+				background: linear-gradient(0deg, rgba(0,118,255,1) 0%, rgba(0,174,255,1) 100%);
+			}
+			button:focus {
+				outline-style: none;
+
+			}
+		`;
+  }
+
+  handleClick(event) {
+    let newEvent = new CustomEvent('button-click');
+    this.dispatchEvent(newEvent);
   }
 
 }
@@ -3805,28 +4268,6 @@ customElements.define('nav-bar', NavBar);
 "use strict";
 
 var _litElement = require("lit-element");
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div>\n\t\t\t\t<label for=\"", "\">", "</label>\n\t\t\t\t<div id=\"inputGroup\">\n\t\t\t\t\t<span class=\"input_icon\">", "\n\t\t\t\t\t<span class=\"input_icon\"><input type=\"", "\" name=\"", "\" value=\"", "\"/></span>\n\t\t\t\t\t", "</span>\n\t\t\t\t </div>\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\tinput {\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder-radius: 8px;\n\t\t\t\twidth: 80%;\n\t\t\t\tfont-size: 1rem;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t\tbackface-visibility: hidden;\n\t\t\t}\n\t\t\tinput:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t\tdiv {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-rows:;\n\t\t\t}\n\t\t\t.input_icon {\n\t\t\t\tposition: relative;\n\t\t\t}\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 class FormInput extends _litElement.LitElement {
   constructor() {
@@ -3857,16 +4298,146 @@ class FormInput extends _litElement.LitElement {
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject());
+    return (0, _litElement.css)`
+			#inputGroup {
+				display: flex;
+			}
+			input {
+				border: 1px solid rgba(255,255,255,0.40);
+				box-shadow: inset -5px -5px 10px 0 #FAFBFF, inset 5px 5px 10px 0 #A6ABBD;
+				background: #EBECF0;
+				-moz-appearance: none;
+				-webkit-appearance: none;
+				border-radius: 8px;
+				font-size: 1rem;
+				padding: 0.8rem;
+				min-width: 10%;
+				margin-bottom: 1rem;
+				backface-visibility: hidden;
+				flex: 1;
+			}
+			input:focus {
+				outline-color: lightgray;
+			}
+			.input_icon {
+				padding: 1rem;
+			}
+		`;
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject2(), this.name, this.title, this.prefix, this.type, this.name, this.value, this.suffix);
+    return (0, _litElement.html)`
+			<div>
+				<label for="${this.name}">${this.title}</label>
+				<div id="inputGroup">
+					<span class="${this.prefix ? 'input_icon' : ''}">${this.prefix}</span>
+					<input @input="${this.handleInput}" type="${this.type}" name="${this.name}" value="${this.value}"/>
+					<span class="${this.suffix ? 'input_icon' : ''}">${this.suffix}</span>
+				 </div>
+			</div>
+		`;
+  }
+
+  handleInput(event) {
+    let newEvent = new CustomEvent('input', {
+      detail: {
+        name: event.target.name,
+        value: event.target.value
+      }
+    });
+    this.dispatchEvent(newEvent);
   }
 
 }
 
 customElements.define('form-input', FormInput);
+},{"lit-element":"../node_modules/lit-element/lit-element.js"}],"components/frequency-selector.js":[function(require,module,exports) {
+"use strict";
+
+var _litElement = require("lit-element");
+
+class FrequencySelector extends _litElement.LitElement {
+  constructor() {
+    super();
+    this.label, this.name;
+  }
+
+  static get properties() {
+    return {
+      label: {
+        type: String
+      },
+      name: {
+        type: String
+      }
+    };
+  }
+
+  render() {
+    return (0, _litElement.html)`
+			<div>
+				<label>${this.label}</>
+				<select name="${this.name}" @change="${this.handleChange}">
+					<option value="1">Yearly</option>
+					<option value="12">Monthly</option>
+				</select>
+
+			</div>
+		`;
+  }
+
+  static get styles() {
+    return (0, _litElement.css)`
+			:host {
+				align-self: center;
+			}
+			div {
+				display: grid;
+			}
+			select {
+				display: block;
+					font-size: 1rem;
+					padding: 0.7rem;
+					width: 100%;
+					max-width: 100%;
+					font-family: 'Comfortaa', cursive;
+					color: #00AEFF;
+					text-indent: 45%;
+					box-sizing: border-box;
+					margin-top: 8px;
+					background: #EBECF0;
+					border: none;
+					box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
+					border-radius: 6px;
+					-moz-appearance: none;
+					-webkit-appearance: none;
+					appearance: none;
+					background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+					background-repeat: no-repeat, repeat;
+					background-position: right .7em top 50%, 0 0;
+					background-size: .65em auto, 100%;
+			}
+			@media only screen and (max-width: 455px) {
+				select {
+					text-indent: 0;
+				}
+			}
+		`;
+  }
+
+  handleChange(event) {
+    let newEvent = new CustomEvent('input', {
+      detail: {
+        name: event.target.name,
+        value: event.target.value
+      }
+    });
+    this.dispatchEvent(newEvent);
+  }
+
+}
+
+customElements.define('frequency-selector', FrequencySelector);
 },{"lit-element":"../node_modules/lit-element/lit-element.js"}],"components/calculator-form.js":[function(require,module,exports) {
 "use strict";
 
@@ -3874,38 +4445,59 @@ var _litElement = require("lit-element");
 
 var _formInput = _interopRequireDefault(require("./form-input.js"));
 
+var _frequencySelector = _interopRequireDefault(require("./frequency-selector.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\theight: 100%;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t}\n\t\t\t\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<form class=\"input_form\">\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Initial Investment\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"beginning\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tprefix=\"$\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Rate of Interest\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"rate\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tsuffix=\"%\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Calculation Period\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"years\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tsuffix=\"years\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t\t<form-input \n\t\t\t\t\t\ttitle=\"Periodic Contribution\" \n\t\t\t\t\t\ttype=\"number\" \n\t\t\t\t\t\tname=\"contribution\" \n\t\t\t\t\t\tvalue=\"", "\" \n\t\t\t\t\t\tprefix=\"$\"\n\t\t\t\t\t\t@input=\"", "\"\n\t\t\t\t\t\t></form-input>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 class CalculatorForm extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning = '100', this.rate = '5', this.years = '10', this.contribution = '0';
+    this.beginning = '100', this.rate = '5', this.years = '10', this.contribution = '100', this.contributionFreq = '1';
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.beginning, this.handleChange, this.rate, this.handleChange, this.years, this.handleChange, this.contribution, this.handleChange);
+    return (0, _litElement.html)`
+			<div class="tile">
+				<form class="input_form">
+					<form-input 
+						title="Initial Investment" 
+						type="number" 
+						name="beginning" 
+						value="${this.beginning}" 
+						prefix="$"
+						@input="${this.handleChange}"
+						></form-input>
+					<form-input 
+						title="Rate of Interest" 
+						type="number" 
+						name="rate" 
+						value="${this.rate}" 
+						suffix="%"
+						@input="${this.handleChange}"
+						></form-input>
+					<form-input 
+						title="Calculation Period" 
+						type="number" 
+						name="years" 
+						value="${this.years}" 
+						suffix="years"
+						@input="${this.handleChange}"
+						></form-input>
+					<div class="input_group">
+						<form-input 
+							title="Periodic Contribution" 
+							type="number" 
+							name="contribution" 
+							value="${this.contribution}" 
+							prefix="$"
+							@input="${this.handleChange}"
+							></form-input>
+						<frequency-selector @input="${this.handleChange}" name="contributionFreq"></frequency-selector>
+					</div>
+					<frequency-selector label="Compounding frequency"></frequency-selector>
+				</form>
+			</div>
+		`;
   }
 
   static get properties() {
@@ -3921,29 +4513,60 @@ class CalculatorForm extends _litElement.LitElement {
       },
       contribution: {
         type: Number
+      },
+      contributionFreq: {
+        type: Number
       }
     };
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject2());
+    return (0, _litElement.css)`
+			.tile {
+				background: #EBECF0;
+				border: 1px solid rgba(255,255,255,0.40);
+				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
+				border-radius: 6px;
+				padding: 20px;
+				height: 100%;
+				margin-bottom: 2rem;
+			}
+			.tile {
+				overflow: scroll;
+			}
+			.input_form {
+				display: grid;
+				height: 100%;
+			}
+			.input_group {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				grid-gap: 8px;
+			}
+			
+			@media only screen and (max-width: 455px) {
+				.input_group {
+					grid-template-columns: 60% 1fr;
+				}
+			}
+		`;
   }
 
   handleChange(event) {
     let newEvent = new CustomEvent('input', {
       detail: {
-        name: event.target.name,
-        value: event.target.value
+        name: event.detail.name,
+        value: event.detail.value
       }
     });
     this.dispatchEvent(newEvent);
-    this[event.target.name] = event.target.value;
+    this[event.detail.name] = event.detail.value;
   }
 
 }
 
 customElements.define('calculator-form', CalculatorForm);
-},{"lit-element":"../node_modules/lit-element/lit-element.js","./form-input.js":"components/form-input.js"}],"calculator.js":[function(require,module,exports) {
+},{"lit-element":"../node_modules/lit-element/lit-element.js","./form-input.js":"components/form-input.js","./frequency-selector.js":"components/frequency-selector.js"}],"calculator.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3956,21 +4579,24 @@ exports.interestIncreases = interestIncreases;
 /*
 	Interest calculator functions
 */
-function compoundedInterest(principal, rate, time) {
-  let dRate = decimalRate(rate);
-  return principal * Math.pow(1 + dRate, time) - principal;
+function compoundedInterest(principal, rate, time, contribution = 0, contributionFreq = 1) {
+  let compounded = principal * Math.pow(1 + decimalRate(rate), time) - principal;
+  let contrib = (contributionFreq * contribution * Math.pow(1 + decimalRate(rate), time) - contributionFreq * contribution) / decimalRate(rate);
+  contrib = contrib - contributionFreq * contribution * time;
+  return compounded + contrib;
 }
 
-function compoundedTotal(principal, rate, time) {
-  let dRate = decimalRate(rate);
-  return principal + compoundedInterest(principal, rate, time);
+function compoundedTotal(principal, rate, time, contribution = 0, contributionFreq) {
+  let ret = principal + compoundedInterest(principal, rate, time, contribution, contributionFreq) + contributionFreq * contribution * time;
+  console.log(ret);
+  return ret;
 }
 
-function interestIncreases(principal, rate, time) {
+function interestIncreases(principal, rate, time, contribution = 0, contributionFreq) {
   let interests = [];
 
   for (var i = 0; i <= time; i++) {
-    let interest = compoundedTotal(principal, rate, i);
+    let interest = compoundedTotal(principal, rate, i, contribution, contributionFreq);
     interests.push(interest);
   }
 
@@ -3987,46 +4613,22 @@ var _litElement = require("lit-element");
 
 var _calculator = require("../calculator.js");
 
-function _templateObject3() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.tile {\n\t\t\t\tbackground: #EBECF0;\n\t\t\t\tborder: 1px solid rgba(255,255,255,0.40);\n\t\t\t\tbox-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 20px;\n\t\t\t\tmargin-bottom: 2rem;\n\t\t\t\theight: 100%;\n\t\t\t\tcolor: rgb(4,215,165);\n\t\t\t}\n\n\t\t\t.tile {\n\t\t\t\toverflow: scroll;\n\t\t\t}\n\t\t\t#payments {\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-columns: 1fr 1fr;\n\t\t\t\tgrid-gap: 6px;\n\t\t\t\ttext-align: center;\n\t\t\t}\n\t\t\t@media only screen and (min-width: 1024px) {\n\t\t\t\t#payments {\n\t\t\t\t\tgrid-template-columns: 1fr 1fr 1fr;\n\t\t\t\t}\n\t\t\t}\n\t\t\t.payment {\n\t\t\t\tborder: 2px solid rgb(4,215,165);\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t}\n\t\t\t@media only screen and (max-width: 455px) {\n\t\t\t\t.payment {\n\t\t\t\t\tfont-size: 12px;\n\t\t\t\t}\n\t\t\t}\n\t\t"]);
-
-  _templateObject3 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["<div class=\"payment\">Year ", ": $", "</div>"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"tile\">\n\t\t\t\t<p>In ", " years you will have $", " with a net gain of $", ".</p>\n\t\t\t\t<slot name=\"graph\"></slot>\n\t\t\t\t<div id=\"payments\">\n\t\t\t\t\t", "\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 class CalculatorResults extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning, this.rate, this.years;
+    this.beginning, this.rate, this.years, this.contribution, this.contributionFreq;
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.years, this.endingMoney(), this.endingInterest(), (0, _calculator.interestIncreases)(this.beginning, this.rate, this.years).map((incr, index) => (0, _litElement.html)(_templateObject2(), index, incr.toFixed(2))));
+    return (0, _litElement.html)`
+			<div class="tile">
+				<p>In ${this.years ? this.years : '0'} years with an interest rate of ${this.rate ? this.rate : '0'}% you will have $${this.endingMoney()} with a net gain of $${this.endingInterest()}.</p>
+				<slot name="graph"></slot>
+				<div id="payments">
+					${(0, _calculator.interestIncreases)(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).map((incr, index) => (0, _litElement.html)`<div class="payment">Year ${index}: $${incr.toFixed(2)}</div>`)}
+				</div>
+			</div>
+		`;
   }
 
   static get properties() {
@@ -4039,21 +4641,63 @@ class CalculatorResults extends _litElement.LitElement {
       },
       years: {
         type: Number
+      },
+      contribution: {
+        type: Number
+      },
+      contributionFreq: {
+        type: Number
       }
     };
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject3());
+    return (0, _litElement.css)`
+			.tile {
+				background: #EBECF0;
+				border: 1px solid rgba(255,255,255,0.40);
+				box-shadow: -5px -5px 10px 0 #FAFBFF, 5px 5px 10px 0 #A6ABBD;
+				border-radius: 6px;
+				padding: 20px;
+				margin-bottom: 2rem;
+				height: 100%;
+				color: rgb(4,215,165);
+			}
+
+			.tile {
+				overflow: scroll;
+			}
+			#payments {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				grid-gap: 6px;
+				text-align: center;
+			}
+			@media only screen and (min-width: 1024px) {
+				#payments {
+					grid-template-columns: 1fr 1fr 1fr;
+				}
+			}
+			.payment {
+				border: 2px solid rgb(4,215,165);
+				border-radius: 6px;
+				padding: 0.5rem;
+			}
+			@media only screen and (max-width: 455px) {
+				.payment {
+					font-size: 12px;
+				}
+			}
+		`;
   }
 
   endingInterest() {
-    let interest = (0, _calculator.compoundedInterest)(this.beginning, this.rate, this.years).toFixed(2);
+    let interest = (0, _calculator.compoundedInterest)(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).toFixed(2);
     return interest;
   }
 
   endingMoney() {
-    let total = (0, _calculator.compoundedTotal)(this.beginning, this.rate, this.years).toFixed(2);
+    let total = (0, _calculator.compoundedTotal)(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq).toFixed(2);
     return total;
   }
 
@@ -4067,42 +4711,10 @@ var _litElement = require("lit-element");
 
 var _calculator = require("../calculator.js");
 
-function _templateObject3() {
-  const data = _taggedTemplateLiteral(["<div class=\"bar\" style=\"height:", "%;\"><p class=\"bar_price\">$", "</p></div>"]);
-
-  _templateObject3 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"graph\">\n\t\t\t\t", "\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t#graph {\n\t\t\t\tbox-sizing: border-box;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 30vh;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-gap: 2px;\n\t\t\t\tgrid-auto-flow: column;\n\t\t\t\talign-items: end;\n\t\t\t\tpadding: 0.5rem;\n\t\t\t\tborder-left: 2px solid rgb(4,215,165);\n\t\t\t\tborder-bottom: 2px solid rgb(4,215,165);\n\t\t\t\tmargin-bottom: 1rem;\n\t\t\t}\n\t\t\t.bar {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tborder-radius: 12px;\n\t\t\t}\n\t\t\t.bar:hover, .bar:active {\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t\n\t\t\t.bar:hover > .bar_price, .bar:active > .bar_price {\n\t\t\t\tdisplay: block;\n\t\t\t\tpadding: 0;\n\t\t\t\tmargin: 0;\n\t\t\t\ttransform: rotate(-90deg);\n\t\t\t}\n\t\t\t.bar_price {\n\t\t\t\tdisplay: none;\n\t\t\t\tcolor: #FFFF;\n\t\t\t\tfont-weight: bold;\n\t\t\t}\n\t\t\t\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 class CalculatorGraph extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning, this.rate, this.years;
+    this.beginning, this.rate, this.years, this.contribution, this.contributionFreq;
   }
 
   static get properties() {
@@ -4115,20 +4727,64 @@ class CalculatorGraph extends _litElement.LitElement {
       },
       years: {
         type: Number
+      },
+      contribution: {
+        type: Number
+      },
+      contributionFreq: {
+        type: Number
       }
     };
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject());
+    return (0, _litElement.css)`
+			#graph {
+				box-sizing: border-box;
+				width: 100%;
+				height: 30vh;
+				display: grid;
+				grid-gap: 2px;
+				grid-auto-flow: column;
+				align-items: end;
+				padding: 0.5rem;
+				border-left: 2px solid rgb(4,215,165);
+				border-bottom: 2px solid rgb(4,215,165);
+				margin-bottom: 1rem;
+			}
+			.bar {
+				background: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);
+				border-radius: 12px;
+			}
+			.bar:hover, .bar:active {
+				padding: 1rem;
+			}
+			
+			.bar:hover > .bar_price, .bar:active > .bar_price {
+				display: block;
+				padding: 0;
+				margin: 0;
+				transform: rotate(-90deg);
+			}
+			.bar_price {
+				display: none;
+				color: #FFFF;
+				font-weight: bold;
+			}
+			
+		`;
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject2(), this.incrementPairs().map(pair => (0, _litElement.html)(_templateObject3(), pair[1], pair[0].toFixed(0))));
+    return (0, _litElement.html)`
+			<div id="graph">
+				${this.incrementPairs().map(pair => (0, _litElement.html)`<div class="bar" style="height:${pair[1]}%;"><p class="bar_price">$${pair[0].toFixed(0)}</p></div>`)}
+			</div>
+		`;
   }
 
   increments() {
-    let increases = (0, _calculator.interestIncreases)(this.beginning, this.rate, this.years);
+    let increases = (0, _calculator.interestIncreases)(this.beginning, this.rate, this.years, this.contribution, this.contributionFreq);
     return increases;
   }
 
@@ -4157,35 +4813,28 @@ customElements.define('calculator-graph', CalculatorGraph);
 
 var _litElement = require("lit-element");
 
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<button>\n\t\t\t\t", "\n\t\t\t</button>\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\tbutton {\n\t\t\t\tbackground: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);\n\t\t\t\tpadding: 1rem;\n\t\t\t\tcolor: #FFFFFF;\n\t\t\t\twidth: 100%;\n\t\t\t\tbox-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\tborder: 3px solid #EBECF0;\n\t\t\t\tfont-size: 1rem;\n\t\t\t}\n\t\t\tbutton:focus {\n\t\t\t\toutline-color: lightgray;\n\t\t\t}\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 class MainButton extends _litElement.LitElement {
   constructor() {
     super(), this.title = 'title';
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject());
+    return (0, _litElement.css)`
+			button {
+				background: linear-gradient(0deg, rgba(4,215,165,1) 0%, rgba(10,237,209,1) 100%);
+				padding: 1rem;
+				color: #FFFFFF;
+				width: 100%;
+				box-shadow: -10px -10px 20px 0 #FAFBFF, 10px 10px 20px 0 #A6ABBD;
+				border-radius: 6px;
+				border: 3px solid #EBECF0;
+				font-size: 1rem;
+				font-family: 'Comfortaa', cursive;
+			}
+			button:focus {
+				outline-color: lightgray;
+			}
+		`;
   }
 
   static get properties() {
@@ -4197,7 +4846,11 @@ class MainButton extends _litElement.LitElement {
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject2(), this.title);
+    return (0, _litElement.html)`
+			<button>
+				${this.title}
+			</button>
+		`;
   }
 
 }
@@ -4208,28 +4861,6 @@ customElements.define('main-button', MainButton);
 
 var _litElement = require("lit-element");
 
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div class=\"card ", "\">\n\t\t\t  <div class=\"content\">\n\t\t\t    <div class=\"front\">\n\t\t\t      <slot name=\"front\"></slot>\n\t\t\t    </div>\n\t\t\t    <div class=\"back\">\n\t\t\t      <slot name=\"back\"></slot>\n\t\t\t    </div>\n\t\t\t  </div>\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t.card {\n\t\t\t  width: 100%;\n\t\t\t  perspective: 600px;\n\t\t\t  margin-bottom: 5rem;\n\n\t\t\t}\n\n\t\t\t.content {\n\t\t\t  height: 60vh;\n\t\t\t  transition: transform 0.5s;\n\t\t\t  transform-style: preserve-3d;\n\t\t\t}\n\n\t\t\t.flip .content {\n\t\t\t  transform: rotateY( 180deg ) ;\n\t\t\t  -webkit-transform: rotateY(180deg);\n\t\t\t  transition: transform 0.5s;\n\t\t\t}\n\n\t\t\t.front,\n\t\t\t.back {\n\t\t\t  position: absolute;\n\t\t\t  height: 100%;\n\t\t\t  width: 100%;\n\t\t\t  backface-visibility: hidden;\n\t\t\t  -webkit-backface-visibility: hidden;\n\t\t\t}\n\n\t\t\t.back {\n\t\t\t  transform: rotateY( 180deg );\n\t\t\t  -webkit-transform: rotateY(180deg)\n\t\t\t}\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 class CardFlipper extends _litElement.LitElement {
   constructor() {
     super();
@@ -4237,7 +4868,40 @@ class CardFlipper extends _litElement.LitElement {
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject());
+    return (0, _litElement.css)`
+			.card {
+			  width: 100%;
+			  perspective: 600px;
+			  margin-bottom: 5rem;
+
+			}
+
+			.content {
+			  height: 60vh;
+			  transition: transform 0.5s;
+			  transform-style: preserve-3d;
+			}
+
+			.flip .content {
+			  transform: rotateY( 180deg ) ;
+			  -webkit-transform: rotateY(180deg);
+			  transition: transform 0.5s;
+			}
+
+			.front,
+			.back {
+			  position: absolute;
+			  height: 100%;
+			  width: 100%;
+			  backface-visibility: hidden;
+			  -webkit-backface-visibility: hidden;
+			}
+
+			.back {
+			  transform: rotateY( 180deg );
+			  -webkit-transform: rotateY(180deg)
+			}
+		`;
   }
 
   static get properties() {
@@ -4263,7 +4927,18 @@ class CardFlipper extends _litElement.LitElement {
 
 
   render() {
-    return (0, _litElement.html)(_templateObject2(), this.state == 'flip' ? 'flip' : 'none');
+    return (0, _litElement.html)`
+			<div class="card ${this.state == 'flip' ? 'flip' : 'none'}">
+			  <div class="content">
+			    <div class="front">
+			      <slot name="front"></slot>
+			    </div>
+			    <div class="back">
+			      <slot name="back"></slot>
+			    </div>
+			  </div>
+			</div>
+		`;
   }
 
 }
@@ -4273,28 +4948,6 @@ customElements.define('card-flipper', CardFlipper);
 "use strict";
 
 var _litElement = require("lit-element");
-
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t#modal {\n\t\t\t\tposition: fixed;\n\t\t\t\tz-index: 9998;\n\t\t\t\ttop: 0;\n\t\t\t\tleft: 0;\n\t\t\t\twidth: 100%;\n\t\t\t\theight: 100%;\n\t\t\t\tbackground-color: rgba(0, 0, 0, .5);\n\t\t\t\tdisplay: grid;\n\t\t\t\ttransition: opacity .3s ease;\n\t\t\t\tjustify-items: center;\n\t\t\t\talign-items: center;\n\t\t\t\tgrid-gap: 5rem;\n\t\t\t}\n\t\t\t#modalContainer {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tborder-radius: 6px;\n\t\t\t\twidth: 80vw;\n\t\t\t\tpadding: 1rem;\n\t\t\t}\n\t\t\t.open {\n\t\t\t\tbackground-color: green;\n\t\t\t\tvisibility: visible;\n\t\t\t}\n\t\t\t.none {\n\t\t\t\tvisibility: hidden;\n\t\t\t}\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"modal\" class=\"", "\">\n\t\t\t\t<div id=\"modalContainer\">\n\t\t\t\t\t<h3>About Yield</h3>\n\t\t\t\t\t<p>Yield is a compounded interest calculator that shows you how your\n\t\t\t\t\tinvestments will grow over time.</p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 class InfoModal extends _litElement.LitElement {
   constructor() {
@@ -4311,18 +4964,52 @@ class InfoModal extends _litElement.LitElement {
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), this.open == 'open' ? 'open' : 'none');
+    return (0, _litElement.html)`
+			<div id="modal" class="${this.open == 'open' ? 'open' : 'none'}">
+				<div id="modalContainer">
+					<p>Yield is a compounded interest calculator that shows you how your
+					investments will grow over time.</p>
+				</div>
+			</div>
+		`;
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject2());
+    return (0, _litElement.css)`
+			#modal {
+				position: fixed;
+				z-index: 9998;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, .5);
+				display: grid;
+				justify-items: center;
+				align-items: center;
+				grid-gap: 5rem;
+			}
+			#modalContainer {
+				background-color: #EBECF0;
+				border-radius: 6px;
+				width: 80vw;
+				padding: 1rem;
+			}
+			.open {
+				background-color: green;
+				visibility: visible;
+			}
+			.none {
+				visibility: hidden;
+			}
+		`;
   }
 
 }
 
 customElements.define('info-modal', InfoModal);
-},{"lit-element":"../node_modules/lit-element/lit-element.js"}],"assets/yield_logo.svg":[function(require,module,exports) {
-module.exports = "/yield_logo.283aac9b.svg";
+},{"lit-element":"../node_modules/lit-element/lit-element.js"}],"assets/yield_logo_small.svg":[function(require,module,exports) {
+module.exports = "/yield_logo_small.aad12f9c.svg";
 },{}],"components/app-container.js":[function(require,module,exports) {
 "use strict";
 
@@ -4344,42 +5031,69 @@ var _infoModal = _interopRequireDefault(require("./info-modal.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _templateObject2() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t:host {\n\t\t\t\tbackground-color: #EBECF0;\n\t\t\t\tfont-family: 'M PLUS Rounded 1c', sans-serif;\n\t\t\t\tfont-style: normal;\n\t\t\t\tfont-weight: 200;\n\t\t\t\tdisplay: grid;\n\t\t\t}\n\t\t\t#app {\n\t\t\t\tmargin-right: 1rem;\n\t\t\t\tmargin-left: 1rem;\n\t\t\t\tmargin-top: 0;\n\t\t\t\tmargin-bottom: 0;\n\t\t\t\tpadding-top: 0;\n\t\t\t\tpadding-bottom: 0;\n\t\t\t\tdisplay: grid;\n\t\t\t\tgrid-template-rows: 15vh  auto;\n\t\t\t}\n\t\t\t@media only screen and (min-width: 1024px) {\n\t\t\t\t#app {\n\t\t\t\t\twidth: 70vw;\n\t\t\t\t\tjustify-self: center;\n\t\t\t\t}\n\t\t\t}\n\t\t"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _taggedTemplateLiteral(["\n\t\t\t<div id=\"app\">\n\t\t\t\t<nav-bar logo=\"", "\" @click=\"", "\"></nav-bar>\n\t\t\t\t<card-flipper state=\"", "\">\n\t\t\t\t\t<calculator-form slot=\"front\" @input=\"", "\"></calculator-form>\n\t\t\t\t\t<calculator-results \n\t\t\t\t\t\tslot=\"back\"\n\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\tyears=\"", "\">\n\t\t\t\t\t\t<calculator-graph\n\t\t\t\t\t\t\tslot=\"graph\"\n\t\t\t\t\t\t\tbeginning=\"", "\"\n\t\t\t\t\t\t\trate=\"", "\"\n\t\t\t\t\t\t\tyears=\"", "\"></calculator-graph>\n\t\t\t\t\t</calculator-results>\n\t\t\t\t</card-flipper>\n\t\t\t\t<main-button @click=\"", "\" title=\"", "\"></main-button>\n\t\t\t\t<info-modal open=\"", "\"></info-modal>\n\t\t\t</div>\n\t\t"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-const logo = require('../assets/yield_logo.svg');
+const logo = require('../assets/yield_logo_small.svg');
 
 class AppContainer extends _litElement.LitElement {
   constructor() {
     super();
-    this.beginning = 100, this.rate = 5, this.years = 10, this.contribution = 0, this.flip = false, this.infoModal = false;
+    this.beginning = 100, this.rate = 5, this.years = 10, this.contribution = 100, this.contributionFreq = 1, this.flip = false, this.infoModal = false;
   }
 
   render() {
-    return (0, _litElement.html)(_templateObject(), logo, this.handleInfoButton, this.flip ? 'flip' : 'none', this.handleInput, this.beginning, this.rate, this.years, this.beginning, this.rate, this.years, this.handleClick, this.flip ? 'Reset' : 'Calculate', this.infoModal ? 'open' : 'none');
+    return (0, _litElement.html)`
+			<div id="app">
+				<nav-bar logo="${logo}" @button-click="${this.handleInfoButton}"></nav-bar>
+				<card-flipper state="${this.flip ? 'flip' : 'none'}">
+					<calculator-form slot="front" @input="${this.handleInput}"></calculator-form>
+					<calculator-results 
+						slot="back"
+						beginning="${this.beginning}"
+						rate="${this.rate}"
+						years="${this.years}"
+						contribution="${this.contribution}"
+						contributionFreq="${this.contributionFreq}">
+						<calculator-graph
+							slot="graph"
+							beginning="${this.beginning}"
+							rate="${this.rate}"
+							years="${this.years}"
+							contribution="${this.contribution}"
+							contributionFreq="${this.contributionFreq}"></calculator-graph>
+					</calculator-results>
+				</card-flipper>
+				<main-button @click="${this.handleClick}" title="${this.flip ? 'Reset' : 'Calculate'}"></main-button>
+				<info-modal open="${this.infoModal ? 'open' : 'none'}"></info-modal>
+			</div>
+		`;
   }
 
   static get styles() {
-    return (0, _litElement.css)(_templateObject2());
+    return (0, _litElement.css)`
+			:host {
+				background-color: #EBECF0;
+				font-family: 'Comfortaa', cursive;
+				font-style: normal;
+				font-weight: 200;
+				display: grid;
+			}
+			#app {
+				margin: 1rem;
+				margin-top: 0;
+				margin-bottom: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				display: grid;
+				height: 100vh;
+				max-height: 100vh;
+				grid-template-rows: 1fr 5fr 1fr;
+			}
+			@media only screen and (min-width: 1024px) {
+				#app {
+					width: 70vw;
+					justify-self: center;
+				}
+			}
+		`;
   }
 
   static get properties() {
@@ -4394,6 +5108,9 @@ class AppContainer extends _litElement.LitElement {
         type: String
       },
       contribution: {
+        type: String
+      },
+      contributionFreq: {
         type: String
       },
       flip: {
@@ -4417,13 +5134,14 @@ class AppContainer extends _litElement.LitElement {
   }
 
   handleInput(event) {
+    console.log(event.detail);
     this[event.detail.name] = event.detail.value;
   }
 
 }
 
 customElements.define('app-container', AppContainer);
-},{"lit-element":"../node_modules/lit-element/lit-element.js","./nav-bar.js":"components/nav-bar.js","./calculator-form.js":"components/calculator-form.js","./calculator-results.js":"components/calculator-results.js","./calculator-graph.js":"components/calculator-graph.js","./main-button.js":"components/main-button.js","./card-flipper.js":"components/card-flipper.js","./info-modal.js":"components/info-modal.js","../assets/yield_logo.svg":"assets/yield_logo.svg"}],"index.js":[function(require,module,exports) {
+},{"lit-element":"../node_modules/lit-element/lit-element.js","./nav-bar.js":"components/nav-bar.js","./calculator-form.js":"components/calculator-form.js","./calculator-results.js":"components/calculator-results.js","./calculator-graph.js":"components/calculator-graph.js","./main-button.js":"components/main-button.js","./card-flipper.js":"components/card-flipper.js","./info-modal.js":"components/info-modal.js","../assets/yield_logo_small.svg":"assets/yield_logo_small.svg"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _appContainer = _interopRequireDefault(require("./components/app-container.js"));
@@ -4467,7 +5185,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64399" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56762" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
